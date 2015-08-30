@@ -1,5 +1,5 @@
 # Background
-The tetraploid species "*X.* new tetraploid 1" will soon be officially named.  This species is closely related to X. tropicalis and is an allotetraploid, meaning it was formed via the fusion of two ancestral diploid genomes.  We have recently demonstrated that one of these genomes was an ancestor of X. tropicalis; the other was another diploid species that is possibly extinct or undiscovered.
+The tetraploid species "*X.* new tetraploid 1" will soon be officially named.  This species is closely related to X. tropicalis and is an allotetraploid, meaning it was formed via the fusion of two ancestral diploid genomes.  We have recently demonstrated that one of these genomes was an ancestor of *X. tropicalis*; the other was another diploid species that is possibly extinct or undiscovered.
 
 # Goals
 The goan of this project is to sequence and analyze the complete genome of "*X.* new tetraploid 1".  Several questions will be answered, including 
