@@ -1,8 +1,8 @@
 # Background
-The African clawed frogs *Xenopus laevis and X. gilli hybridize in their contact zone in southwest Cape Province, South Africa.  X. gilli occurs only in a small region on the edge of this province and is listed as endangered by the IUCN.  X. laevis is common and occurs throughout the range of X. gilli and additionally occurs throughout other parts of South Africa and up into Malawi.  Previous studies of this hybrid zone have not recovered evidence of gene flow between these species but these studies are based on only a handful of genetic markers.
+The African clawed frogs *Xenopus laevis* and *X. gilli* hybridize in their contact zone in southwest Cape Province, South Africa.  *Xenopus gilli* occurs only in a small region on the edge of this province and is listed as endangered by the IUCN.  X. laevis is common and occurs throughout the range of *X. gilli* and additionally occurs throughout other parts of South Africa and up into Malawi.  Previous studies of this hybrid zone have not recovered evidence of gene flow between these species but these studies are based on only a handful of genetic markers.
 
 # Goals
-The goal of this study is to test for evidence of introgression between *X. laevis* and *X. gilli*, and also between populations of X. gilli.
+The goal of this study is to test for evidence of introgression between *X. laevis* and *X. gilli*, and also between populations of *X. gilli*.
 
 # Work Involved
 Data collection for this project is almost complete.  A few more genes could be sequenced for several individuals but we have >10 loci sequenced for populations east and west of False Bay for *X. laevis* and *X. gilli* and for samples collected in 1994 and also more recently. The manjor work remaining is to fit the data to isolation-migration models implemented by the program MIMAR and we have done previously. This will expose Caroline to computing with the sharcnet computer cluster and introduce her to some simple BASH scripting and plotting with R. It will also expose her to a simple MCMC approach to parameter estimation.
