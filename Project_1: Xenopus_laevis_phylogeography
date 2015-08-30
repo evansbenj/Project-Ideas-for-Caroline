@@ -1,9 +1,9 @@
 # Background
 
-Recently, Ben Furman and I published a large study of population structure of the African clawed frog clade Xenopus laevis sensu lato (Molecular Evology 24(4) 909-925).  Our findings support the recognition of at least four species in this clade: X. laevis, X. victorianus, X. poweri, and X. petersi and further identified four populations within X. laevis that mostly occur within the country of South Africa.
+Recently, Ben Furman and I published a large study of population structure of the African clawed frog clade *Xenopus laevis* sensu lato (Molecular Evology 24(4) 909-925).  Our findings support the recognition of at least four species in this clade: *X. laevis*, *X. victorianus*, *X. poweri*, and *X. petersii* and further identified four populations within *X. laevis* that mostly occur within the country of South Africa.
 
 # Goals of proposed project
-THe goals of this project are to further demarcate the geographic locations of (i) the contact zones between populations of X. laevis and (ii) X. laevis and X. petersi.  X. petersi is distributed in Namibia and Angola and we have recently received samples from these countries that were collected by Werner Conradie.
+THe goals of this project are to further demarcate the geographic locations of (i) the contact zones between populations of *X. laevis* and (ii) *X. laevis* and *X. petersii*. *X. petersii* is distributed in Namibia and Angola and we have recently received samples from these countries that were collected by Werner Conradie.
 
 # What work is involved
 This project will involve extraction of genomic DNA from several dozen genetic samples, amplification of mitochondrial DNA using primers we have in the lab, and sequencing of this amplified region.  The resulting data will be aligned with existing data from Furman et al. 2015, and a phylogenetic analysis will be performed on these data using BEAST.
