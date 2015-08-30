@@ -18,4 +18,4 @@ The first task to be done is the genome assembly. This probably will be done by 
 I anticipate that this will result in one or more medium to high impact papers in journals such as Molecular Biology and Evoution or Genome Biology.  At this time, I anticipate that I will be lead on this prokect and that other lab members will be co-authors.
 
 # Key collaborators
-This is a collaborative project that includes CHris Mason (Cornell Medical Center), Mike Schatz (Cold Spring Harbor), and Vladimir Krylov (Charles University, Prague).
+This is a collaborative project that includes Chris Mason (Cornell Medical Center), Mike Schatz (Cold Spring Harbor), and Vladimir Krylov (Charles University, Prague).
