@@ -7,6 +7,8 @@ The goan of this project is to sequence and analyze the complete genome of "X. n
 * whether there is phylogenetic bias between subgenomes in pseudogenization
 * whether there is crosstalk between subgenomes in TEs
 
+The significance of this work is to inform us about intracacies of allopolyploidization that were not previously possible. This will be of comparative interest to, for example, the genome sequences of the diploid species X. tropicalis and the tetraploid species X. laevis.
+
 # Work to be done
 Most of the sequencing is done already, including low coverage of single chromosome libraries, and multiple different insert sizes (180 bp, 600 bp, 1kb, 6kb, and 10kb).  We are waiting still for some increased coverage of the low insert size (3 Illumina lanes, hopefully done soon).  All of these data except the single chromosome libraries are from one female individual.  The single chromosome libraries are from several tadpoles of unknown sex.  We may be able to ascertain which libraries are from the same tadpole (this was done by collaborators in the Cxech Republic).
 
