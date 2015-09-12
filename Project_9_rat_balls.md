@@ -10,5 +10,7 @@ The goals of the proposed project are to use molecular polymorphism data from ro
 We have two large datasets already in hand including (1) low coverage complete genome sequences for three rodent species that have differing testes:body mass ratios and (2) RADseq polymorphism data for these same species and also a fourth species from multiple individuals.  We have already mapped the RADseq data to the complete genomes of a mouse and rat but failed to identify sufficient X linked markers to adequately test our hypotheses.  As a possible remidy, we hope to assemble low coverage genome sequences by mapping our shotgun sequence reads to the mouse and rat genomes to generate more X-linked regions from our focal species and then map our RADseq data to these regions.
 
 # Anticipated impact
+I anticipate this study will be high impact as it will be the first of its kind to test this hypothesis in rodents. We are aware of an analogous study in birds that examines species with sexually dimorphic and non-sexually dimorphic plumage.
 
 # Key collaborators and co-authors
+This study was originally conceptialized by Jake Esselstyn and me. Jake is a former postdoc in the lab and now an Assistant Professor at Louisiana State University. Jake and I have co-funded the sequencing and RADseq effort and Jake is a major collaborator on the project.
