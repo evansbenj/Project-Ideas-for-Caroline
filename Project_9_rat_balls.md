@@ -7,7 +7,15 @@ Rodents have a striking variation among species in the relative size of the test
 The goals of the proposed project are to use molecular polymorphism data from rodents with large and small relative testes size to quantify sex biases in the variance in reproductive success with an overall aim of testing how sperm competition does or does not influence reproductive success of males.
 
 # What work is involved
-We have two large datasets already in hand including (1) low coverage complete genome sequences for three rodent species that have differing testes:body mass ratios and (2) RADseq polymorphism data for these same species and also a fourth species from multiple individuals.  We have already mapped the RADseq data to the complete genomes of a mouse and rat but failed to identify sufficient X linked markers to adequately test our hypotheses.  As a possible remidy, we hope to assemble low coverage genome sequences by mapping our shotgun sequence reads to the mouse and rat genomes to generate more X-linked regions from our focal species and then map our RADseq data to these regions.
+We have two large datasets already in hand including (1) low coverage complete genome sequences for three rodent species that have differing testes:body mass ratios and (2) RADseq polymorphism data for these same species and also a fourth species from multiple individuals.  We have already mapped the RADseq data to the complete genomes of a mouse and rat but failed to identify sufficient X linked markers to adequately test our hypotheses.  As a possible remidy, we hope to assemble low coverage genome sequences by mapping our shotgun sequence reads to the mouse and rat genomes to generate more X-linked regions from our focal species and then map our RADseq data to these regions.  
+
+The proposed steps are as follows:
+- for each of the three genomes, map shotgun reads to the mouse and the rat genomes
+- examine for each species what proportion of reads map to the X chromosomes of both species; these presumably also are X linked in the focal species
+- Do the same for autosomal genes
+- Map the RADseq data to putative X linked and autosomal reads and scaffolds for each species
+- Test in males whether any putative X linked sites are heterozygous.  If yes, discard these as not X-linked
+- Quantify polymorphism and divergence of putative X-linked and autosomal regions in each species; calculate the X:A ratio after correcting for mutation rate
 
 # Anticipated impact
 I anticipate this study will be high impact as it will be the first of its kind to test this hypothesis in rodents. We are aware of an analogous study in birds that examines species with sexually dimorphic and non-sexually dimorphic plumage.
