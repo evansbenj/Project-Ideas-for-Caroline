@@ -1,0 +1,14 @@
+# Background
+Any social system can be placed along a axis of sex biased variation in reproductive success. For example, the harem social system of gorillas is thought to have higher variance in male than female reproductive success because a few silverback males dominate most reproduction while other subordinate males do not reproduce whereas most females can reproduce. In contrast, human populations have a more similar variance in reproductive success between the sexes.  The difference in the variance in reproductive success between the sexes has implications for the amount of polymorphism on the sex chromosomes and autosomes. In a system with higher male than female variance in reproductive success, we expect molecular variation on the X chromosome to be elevated and on the Y chromosome to be depressed relative to the expectation with no sex bias in reproductive success.
+
+# Goals of proposed project
+Rodents have a striking variation among species in the relative size of the testes to body. Some species have huge testes comprising >3% of the total body mass whereas others have miniscule testes comprising less than 1%. The ratio between testes and body mass is presumably related to the extent of sperm competition within each species. However it is not clear what impact differing levels of sperm competition has on sex biased variance in reproductive success. One possibility is that sperm competition leads to large variance in reproductive success among males.  Alternatively, this could be an example of a "Red Queen" scenario in which competition among males drives the evolution of large testes but without dramatically altering the variance in reproductive success in males.
+
+The goals of the proposed project are to use molecular polymorphism data from rodents with large and small relative testes size to quantify sex biases in the variance in reproductive success with an overall aim of testing how sperm competition does or does not influence reproductive success of males.
+
+# What work is involved
+We have two large datasets already in hand including (1) low coverage complete genome sequences for three rodent species that have differing testes:body mass ratios and (2) RADseq polymorphism data for these same species and also a fourth species from multiple individuals.  We have already mapped the RADseq data to the complete genomes of a mouse and rat but failed to identify sufficient X linked markers to adequately test our hypotheses.  As a possible remidy, we hope to assemble low coverage genome sequences by mapping our shotgun sequence reads to the mouse and rat genomes to generate more X-linked regions from our focal species and then map our RADseq data to these regions.
+
+# Anticipated impact
+
+# Key collaborators and co-authors
