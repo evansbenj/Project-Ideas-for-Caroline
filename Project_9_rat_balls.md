@@ -22,3 +22,15 @@ I anticipate this study will be high impact as it will be the first of its kind 
 
 # Key collaborators and co-authors
 This study was originally conceptialized by Jake Esselstyn and me. Jake is a former postdoc in the lab and now an Assistant Professor at Louisiana State University. Jake and I have co-funded the sequencing and RADseq effort and Jake is a major collaborator on the project.
+
+# Update
+Caroline and I are now working on the shotgun genome sequences.  Using `bwa` and `samtools` and a perl script we mapped each of the reads to the mouse genome.  Unfortunately only about 2.5% of the reads actually mapped based on the `samtools faidx` command.  We thus are trying to alternative strategies:
+* de novo assembly using Abyss.  I "may" have managed to install this as follows:
+```
+autoreconf
+./configure --prefix=/work/ben/abyss-1.9.0
+automake
+make
+```
+
+The autoreconf and automake stuff was needed to avoid an error `aclocal-1.13: command not found`
