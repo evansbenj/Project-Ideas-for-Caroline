@@ -81,6 +81,7 @@ Unfortunately only about 2.5% of the reads actually mapped based on the followin
 We thus are trying two alternative strategies:
 
 * de novo assembly using Abyss.  I "may" have managed to install this as follows:
+
 ```
 autoreconf
 ./configure --prefix=/work/ben/abyss-1.9.0
@@ -90,20 +91,24 @@ make
 The autoreconf and automake stuff was needed to avoid an error `aclocal-1.13: command not found`.
 
 In the `/work/ben/abyss-1.9.0/bin` directory, I have entered the following command, which hopefully will start a de novo assembly: 
+
 `sqsub -r 7d --mpp=10G -o abyss_ABTC26654_mouse.out ./abyss-pe name=ABTC26654_mouse k=64 in='/work/ben/2015_rat_genomes/ABTC26654/ABTC26654_R1_trim_paired.fastq /work/ben/2015_rat_genomes/ABTC26654/ABTC26654_R2_trim_paired.fastq'`
 
 If this works, we need to try to optimize the kmer length as described in the Abyss readme file.
 
 * the other approach is to use a program called `stampy` which is specifically designed to map reads to a diverged reference genome. In order to get stampy to work, we need to get the appropriate version of python working on sharcnet. This can be accomplished using the following commands:
+
 ```
 module unload intel openmpi 
 module load gcc/4.8.2 openmpi/gcc/1.8.3 python/gcc/2.7.8 
 ```
 
 Currently I have formatted the mouse and rat genomes and the mapping of one of the shotgun sequences (ABTC26654) seems to be running.  Here is an example of the sharcnet command I used (within the stampy directory) to do one of the paired end alignment for mouse:
+
 `sqsub -r 7d --mpp=10G -o stampy_genome_3.out ./stampy.py -g ./mouse_genome_masked -h ./mouse_genome_masked  --substitutionrate=0.10 -o /work/ben/2015_rat_genomes/ABTC26654/ABTC26654_stampy_paired.sam -M /work/ben/2015_rat_genomes/ABTC26654/ABTC26654_R1_trim_paired.fastq /work/ben/2015_rat_genomes/ABTC26654/ABTC26654_R2_trim_paired.fastq`
 
 Here is an example of the sharcnet command I used (within the stampy directory) to do one of the paired end alignments with rat:
+
 `sqsub -r 7d --mpp=10G -o stampy_genome_3_rat.out ./stampy.py -g ./rn6.masked -h ./rn6.masked  --substitutionrate=0.10 -o /work/ben/2015_rat_genomes/ABTC26654/ABTC26654_stampy_paired_rat.sam -M /work/ben/2015_rat_genomes/ABTC26654/ABTC26654_R1_trim_paired.fastq /work/ben/2015_rat_genomes/ABTC26654/ABTC26654_R2_trim_paired.fastq`
 
  
