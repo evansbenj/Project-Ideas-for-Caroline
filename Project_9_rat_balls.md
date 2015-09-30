@@ -34,7 +34,7 @@ make
 ```
 The autoreconf and automake stuff was needed to avoid an error `aclocal-1.13: command not found`.
 
-In the `bin` directory, I have entered the following command, which hopefully will start a de novo assembly: 
+In the `/work/ben/abyss-1.9.0/bin` directory, I have entered the following command, which hopefully will start a de novo assembly: 
 `sqsub -r 7d --mpp=10G -o abyss_ABTC26654_mouse.out ./abyss-pe name=ABTC26654_mouse k=64 in='/work/ben/2015_rat_genomes/ABTC26654/ABTC26654_R1_trim_paired.fastq /work/ben/2015_rat_genomes/ABTC26654/ABTC26654_R2_trim_paired.fastq'`
 
 If this works, we need to try to optimize the kmer length as described in the Abyss readme file.
