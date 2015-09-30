@@ -24,7 +24,11 @@ I anticipate this study will be high impact as it will be the first of its kind 
 This study was originally conceptialized by Jake Esselstyn and me. Jake is a former postdoc in the lab and now an Assistant Professor at Louisiana State University. Jake and I have co-funded the sequencing and RADseq effort and Jake is a major collaborator on the project.
 
 # Update
-Caroline and I are now working on the shotgun genome sequences.  Using `bwa` and `samtools` and a perl script we mapped each of the reads to the mouse genome.  Unfortunately only about 2.5% of the reads actually mapped based on the `samtools faidx` command.  We thus are trying to alternative strategies:
+Caroline and I are now working on the shotgun genome sequences.  Using `bwa` and `samtools` and a perl script we mapped each of the reads to the mouse genome.  Unfortunately only about 2.5% of the reads actually mapped based on the following `samtools` command:
+`/work/ben/macaque_RAD_TAGs/samtools-0.1.18/samtools flagstat ABTC26654_sorted.bam`
+
+We thus are trying two alternative strategies:
+
 * de novo assembly using Abyss.  I "may" have managed to install this as follows:
 ```
 autoreconf
@@ -39,7 +43,13 @@ In the `/work/ben/abyss-1.9.0/bin` directory, I have entered the following comma
 
 If this works, we need to try to optimize the kmer length as described in the Abyss readme file.
 
-* the other approach is to use a program called `stampy` which is specifically designed to map reads to a diverged reference genome. Currently I have formatted the mouse and rat genomes and the mapping of one of the shotgun sequences (ABTC26654) seems to be running.  Here is an example of the sharcnet command I used (within the stampy directory) to do one of the paired end alignment for mouse:
+* the other approach is to use a program called `stampy` which is specifically designed to map reads to a diverged reference genome. In order to get stampy to work, we need to get the appropriate version of python working on sharcnet. This can be accomplished using the following commands:
+```
+module unload intel openmpi 
+module load gcc/4.8.2 openmpi/gcc/1.8.3 python/gcc/2.7.8 
+```
+
+Currently I have formatted the mouse and rat genomes and the mapping of one of the shotgun sequences (ABTC26654) seems to be running.  Here is an example of the sharcnet command I used (within the stampy directory) to do one of the paired end alignment for mouse:
 `sqsub -r 7d --mpp=10G -o stampy_genome_3.out ./stampy.py -g ./mouse_genome_masked -h ./mouse_genome_masked  --substitutionrate=0.10 -o /work/ben/2015_rat_genomes/ABTC26654/ABTC26654_stampy_paired.sam -M /work/ben/2015_rat_genomes/ABTC26654/ABTC26654_R1_trim_paired.fastq /work/ben/2015_rat_genomes/ABTC26654/ABTC26654_R2_trim_paired.fastq`
 
 Here is an example of the sharcnet command I used (within the stampy directory) to do one of the paired end alignments with rat:
