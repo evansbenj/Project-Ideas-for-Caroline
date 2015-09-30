@@ -24,7 +24,58 @@ I anticipate this study will be high impact as it will be the first of its kind 
 This study was originally conceptialized by Jake Esselstyn and me. Jake is a former postdoc in the lab and now an Assistant Professor at Louisiana State University. Jake and I have co-funded the sequencing and RADseq effort and Jake is a major collaborator on the project.
 
 # Update
-Caroline and I are now working on the shotgun genome sequences.  Using `bwa` and `samtools` and a perl script we mapped each of the reads to the mouse genome.  Unfortunately only about 2.5% of the reads actually mapped based on the following `samtools` command:
+Caroline and I are now working on the shotgun genome sequences.  Using `bwa` and `samtools` and a perl script we mapped each of the reads to the mouse genome.  
+
+Here is the perl script:
+```
+#!/usr/bin/perl                                                                                                                                                   
+ 
+use warnings;
+use strict;
+
+# This script will execute alignment functions for paired end reads
+# launch it in sharcnet like this:
+# sqsub -r 7d --mpp=10G -o shotgun.out perl shotgun_alignment.pl
+
+my $path_to_bwa="/work/ben/macaque_RAD_TAGs/bwa-0.6.2";
+my $path_to_samtools="/work/ben/macaque_RAD_TAGs/samtools-0.1.18";
+my $path_to_data="/work/ben/2015_rat_genomes/ABTC26654";
+my $path_to_genome="/work/ben/rat_balls/mouse_genome";
+my $genome="mouse_genome_masked.fasta";
+my $individual="ABTC26654";
+
+my $commandline;
+my $status;
+
+#$commandline = $path_to_bwa."\/bwa aln ".$path_to_genome."\/".$genome." ".$path_to_data."\/".$individual."_R1_trim_paired.fastq \> ".$path_to_data."\/".$individu
+al."_R1_trim_paired.fastq.sai";
+#$status = system($commandline);
+#$commandline = $path_to_bwa."\/bwa aln ".$path_to_genome."\/".$genome." ".$path_to_data."\/".$individual."_R2_trim_paired.fastq \> ".$path_to_data."\/".$individu
+al."_R2_trim_paired.fastq.sai";
+#$status = system($commandline);
+#$commandline = $path_to_bwa."\/bwa aln ".$path_to_genome."\/".$genome." ".$path_to_data."\/".$individual."_R1_trim_single.fastq \> ".$path_to_data."\/".$individu
+al."_R1_trim_single.fastq.sai";
+#$status = system($commandline);
+#$commandline = $path_to_bwa."\/bwa aln ".$path_to_genome."\/".$genome." ".$path_to_data."\/".$individual."_R2_trim_single.fastq \> ".$path_to_data."\/".$individu
+al."_R2_trim_single.fastq.sai";
+#$status = system($commandline);
+
+$commandline = $path_to_bwa."\/bwa sampe -r \"\@RG\\tID:FLOWCELL1.LANE6\\tSM:".$individual."\\tPL:illumina\" ". $path_to_genome."\/".$genome." ". $path_to_data."\
+/".$individual."_R1_trim_paired.fastq.sai ".$path_to_data."\/".$individual."_R2_trim_paired.fastq.sai ".$path_to_data."\/".$individual."_R1_trim_paired.fastq ".$p
+ath_to_data."\/".$individual."_R2_trim_paired.fastq \> ".$path_to_data."\/".$individual.".sam";
+$status = system($commandline);
+
+$commandline=$path_to_samtools."\/samtools view -bt ".$path_to_genome."\/".$genome." -o ".$path_to_data."\/".$individual.".bam ".$path_to_data."\/".$individual.".
+sam";
+$status = system($commandline);
+$commandline=$path_to_samtools."\/samtools sort ".$path_to_data."\/".$individual.".bam ".$path_to_data."\/".$individual."_sorted";
+$status = system($commandline);
+$commandline= $path_to_samtools."\/samtools index ".$path_to_data."\/".$individual."_sorted.bam";
+$status = system($commandline);
+```
+
+
+Unfortunately only about 2.5% of the reads actually mapped based on the following `samtools` command:
 `/work/ben/macaque_RAD_TAGs/samtools-0.1.18/samtools flagstat ABTC26654_sorted.bam`
 
 We thus are trying two alternative strategies:
