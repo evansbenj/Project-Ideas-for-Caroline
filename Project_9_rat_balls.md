@@ -105,24 +105,23 @@ module load gcc/4.8.2 openmpi/gcc/1.8.3 python/gcc/2.7.8
 
 Currently I have formatted the mouse and rat genomes. This was accomplished with the following commands (for mouse):
 
-'''
-\# now build a genome file
+(first build a genome file)
+```
 sqsub -r 7d --mpp=4G -o stampy_genome.out ./stampy.py -G mouse_genome_masked /work/ben/rat_balls/mouse_gen
 ome/mouse_genome_masked.fasta
 sqsub -r 7d --mpp=4G -o stampy_rat_genome.out ./stampy.py -G rat_rn6_genome_masked /work/ben/rat_balls/rat
 _genome_rn6/rn6.masked.fa
-\#this will make a genome file with the extension .stidx
+```
+(this will make a genome file with the extension .stidx)
 
-\# then build a hash table 
+(then build a hash table)
+```
 sqsub -r 7d --mpp=10G -o stampy_genome_2.out ./stampy.py -g mouse_genome_masked -H /work/ben/rat_balls/mouse
 _genome/mouse_genome_masked
 sqsub -r 7d --mpp=10G -o stampy_rat_genome_2.out ./stampy.py -g rat_rn6_genome_masked -H /work/ben/rat_balls
 /rat_genome_rn6/rn6.masked
-\# this will make a file with the extension .sthash
-
 ```
-
-
+(this will make a file with the extension .sthash)
 
 The mapping of one of the shotgun sequences (ABTC26654) seems to be running.  Here is an example of the sharcnet command I used (within the stampy directory) to do one of the paired end alignment for mouse:
 
