@@ -80,21 +80,30 @@ Unfortunately only about 2.5% of the reads actually mapped based on the followin
 
 We thus are trying two alternative strategies:
 
-* de novo assembly using Abyss.  I "may" have managed to install this as follows:
+* de novo assembly using Abyss.  
+* direct alignment with stampy
 
+
+# Abyss de novo assembly
+
+In the `/work/ben/abyss` directory, I have copied a compiled version by someone from sharcnet (Fei), which hopefully will be able to do a de novo assembly.  Before submitting the jobs, you should unload the default modules:
+`module unload intel mkl openmpi`
+and load the new ones:
 ```
-autoreconf
-./configure --prefix=/work/ben/abyss-1.9.0
-automake
-make
+module load gcc/4.9.2
+module load openmpi/gcc-4.9.2/std/1.8.7
+module load boost/gcc492-openmpi187/1.59.0
 ```
-The autoreconf and automake stuff was needed to avoid an error `aclocal-1.13: command not found`.  I also ended up redoing the compilation after substituting the final `make` with `make AM_CXXFLAGS=-Wall`.  I then copied the ABYSS file from /work/ben/abyss-1.9.0/ABYSS to /work/ben/abyss-1.9.0/bin.  This "seems" to work now.
+in this directory: `/work/ben/2015_rat_genomes/ABTC26654`, I entered this command:
 
-In the `/work/ben/abyss-1.9.0/bin` directory, I have entered the following command, which hopefully will start a de novo assembly: 
 
-`sqsub -r 7d --mpp=10G -o abyss_ABTC26654_mouse.out ./abyss-pe name=ABTC26654_mouse k=64 in='/work/ben/2015_rat_genomes/ABTC26654/ABTC26654_R1_trim_paired.fastq /work/ben/2015_rat_genomes/ABTC26654/ABTC26654_R2_trim_paired.fastq'`
+`
+sqsub -qmpi -n 8 -r 7d --nompirun -o ABTC26654_abyss.out --mpp=10G abyss-pe np=8 name=ABTC26654 k=64 in='ABTC26654_R1_trim_paired.fastq ABTC26654_R2_trim_paired.fastq'
+`
 
 If this works, we need to try to optimize the kmer length as described in the Abyss readme file.
+
+# Stampy
 
 * the other approach is to use a program called `stampy` which is specifically designed to map reads to a diverged reference genome. In order to get stampy to work, we need to get the appropriate version of python working on sharcnet. This can be accomplished using the following commands:
 
