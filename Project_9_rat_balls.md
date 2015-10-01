@@ -88,7 +88,7 @@ autoreconf
 automake
 make
 ```
-The autoreconf and automake stuff was needed to avoid an error `aclocal-1.13: command not found`.
+The autoreconf and automake stuff was needed to avoid an error `aclocal-1.13: command not found`.  I also ended up redoing the compilation after substituting the final `make` with `make AM_CXXFLAGS=-Wall`.  I then copied the ABYSS file from /work/ben/abyss-1.9.0/ABYSS to /work/ben/abyss-1.9.0/bin.  This "seems" to work now.
 
 In the `/work/ben/abyss-1.9.0/bin` directory, I have entered the following command, which hopefully will start a de novo assembly: 
 
