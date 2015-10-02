@@ -27,7 +27,7 @@ This study was originally conceptialized by Jake Esselstyn and me. Jake is a for
 Caroline and I are now working on the shotgun genome sequences.  Using `bwa` and `samtools` and a perl script we mapped each of the reads to the mouse genome.  
 
 Here is the perl script:
-```
+```perl
 #!/usr/bin/perl                                                                                                                                                   
  
 use warnings;
