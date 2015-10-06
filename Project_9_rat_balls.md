@@ -96,7 +96,10 @@ module load gcc/4.9.2
 module load openmpi/gcc-4.9.2/std/1.8.7
 module load boost/gcc492-openmpi187/1.59.0
 ```
-in this directory: `/work/ben/2015_rat_genomes/ABTC26654`, I entered this command:
+and add abyss to the path:
+`export PATH=/work/ben/abyss/bin:$PATH`
+
+Then, in this directory: `/work/ben/2015_rat_genomes/ABTC26654`, I entered this command:
 
 
 `
