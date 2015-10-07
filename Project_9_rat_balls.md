@@ -150,7 +150,7 @@ Unfortunately we hit the 7 day walltime for the trial mouse stampu run.  I am go
 
 and
 
-`/work/ben/stampy-1.0.28/stampy.py -t8 -g /work/ben/stampy-1.0.28/rn6.masked -h /work/ben/stampy-1.0.28/rn6.masked  --substitutionrate=0.10 -o /work/ben/2015_rat_genomes/MVZ180318/MVZ180318_stampy_rat_paired.sam -M /work/ben/2015_rat_genomes/MVZ180318/MVZ180318_R1_trim_paired.fastq.gz /work/ben/2015_rat_genomes/MVZ180318/MVZ180318_R2_trim_paired.fastq.gz`
+`/work/ben/stampy-1.0.28/stampy.py -t8 -g /work/ben/stampy-1.0.28/rn6_masked -h /work/ben/stampy-1.0.28/rn6_masked  --substitutionrate=0.10 -o /work/ben/2015_rat_genomes/MVZ180318/MVZ180318_stampy_rat_paired.sam -M /work/ben/2015_rat_genomes/MVZ180318/MVZ180318_R1_trim_paired.fastq.gz /work/ben/2015_rat_genomes/MVZ180318/MVZ180318_R2_trim_paired.fastq.gz`
 
 
 
