@@ -145,9 +145,11 @@ Here is an example of the sharcnet command I used (within the stampy directory) 
 
 ## Stampy Update
 Unfortunately we hit the 7 day walltime for the trial mouse stampu run.  I am going to start it again on iqaluk using these commands using multiple threads (`-t8`) (MVZ has gz files - much better - cant do the ABTC and JAE uncompressed files yet because abyss is using them):
+
 `/work/ben/stampy-1.0.28/stampy.py -t8 -g ./mouse_genome_masked -h ./mouse_genome_masked  --substitutionrate=0.10 -o /work/ben/2015_rat_genomes/MVZ180318/MVZ180318_stampy_mouse_paired.sam -M /work/ben/2015_rat_genomes/MVZ180318/MVZ180318_R1_trim_paired.fastq.gz /work/ben/2015_rat_genomes/MVZ180318/MVZ180318_R2_trim_paired.fastq.gz`
 
 and
+
 `/work/ben/stampy-1.0.28/stampy.py -t8 -g ./rn6.masked -h ./rn6.masked  --substitutionrate=0.10 -o /work/ben/2015_rat_genomes/MVZ180318/MVZ180318_stampy_rat_paired.sam -M /work/ben/2015_rat_genomes/MVZ180318/MVZ180318_R1_trim_paired.fastq.gz /work/ben/2015_rat_genomes/MVZ180318/MVZ180318_R2_trim_paired.fastq.gz`
 
 
