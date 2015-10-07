@@ -143,5 +143,12 @@ Here is an example of the sharcnet command I used (within the stampy directory) 
 
 `sqsub -r 7d --mpp=10G -o stampy_genome_3_rat.out ./stampy.py -g ./rn6.masked -h ./rn6.masked  --substitutionrate=0.10 -o /work/ben/2015_rat_genomes/ABTC26654/ABTC26654_stampy_paired_rat.sam -M /work/ben/2015_rat_genomes/ABTC26654/ABTC26654_R1_trim_paired.fastq /work/ben/2015_rat_genomes/ABTC26654/ABTC26654_R2_trim_paired.fastq`
 
- 
+## Stampy Update
+Unfortunately we hit the 7 day walltime for the trial mouse stampu run.  I am going to start it again on iqaluk using these commands (MVZ has gz files - much better - cant do the ABTC and JAE uncompressed files yet because abyss is using them):
+`./stampy.py -g ./mouse_genome_masked -h ./mouse_genome_masked  --substitutionrate=0.10 -o /work/ben/2015_rat_genomes/MVZ180318/MVZ180318_stampy_mouse_paired.sam -M /work/ben/2015_rat_genomes/MVZ180318/MVZ180318_R1_trim_paired.fastq.gz /work/ben/2015_rat_genomes/MVZ180318/MVZ180318_R2_trim_paired.fastq.gz`
+
+and
+`./stampy.py -g ./rn6.masked -h ./rn6.masked  --substitutionrate=0.10 -o /work/ben/2015_rat_genomes/MVZ180318/MVZ180318_stampy_rat_paired.sam -M /work/ben/2015_rat_genomes/MVZ180318/MVZ180318_R1_trim_paired.fastq.gz /work/ben/2015_rat_genomes/MVZ180318/MVZ180318_R2_trim_paired.fastq.gz`
+
+
 
