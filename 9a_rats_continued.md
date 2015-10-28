@@ -20,6 +20,6 @@ for rat
 
 And then we set up a batch blast to each one line this:
 
-`./blastn -evalue 1e-60 -query QUERY -db DB -out OUT -outfmt 6 -num_descriptions 1 -num_alignments 1`
+` /Users/evanslab/ncbi-blast-2.2.31+/bin/blastn -evalue 1e-60 -query /Users/Ben/rat_genomes/ABTC26654_abyss_kmer_65/ABTC26654-8.fa -db /Users/Ben/rat_genomes/UCSC_mouse_genome/mouse_genome_masked_blastable -out /Users/Ben/rat_genomes/ABTC26654_abyss_kmer_65/ABTC26654-8_mouse -outfmt 6 -max_target_seqs 1`
 
 
