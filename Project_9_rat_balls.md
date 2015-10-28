@@ -86,6 +86,8 @@ We thus are trying two alternative strategies:
 
 # Abyss de novo assembly
 
+We did shotgun sequencing on three individuals.  ABCT26654 is a female.  We will update the sex of the two other individuals later.
+
 In the `/work/ben/abyss` directory, I have copied a compiled version by someone from sharcnet (Fei), which hopefully will be able to do a de novo assembly.  Before submitting the jobs, you should unload the default modules:
 
 `module unload intel mkl openmpi`
