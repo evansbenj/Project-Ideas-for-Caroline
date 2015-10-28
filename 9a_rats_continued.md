@@ -10,7 +10,13 @@ We downloaded to the new computer NCBI Blast version 2.2.31+ and we downloaded t
 
 First we formatted the genome files like this:
 
-`./makeblastdb -in fasta =dbtype nucl -out`
+`/Users/evanslab/ncbi-blast-2.2.31+/bin/makeblastdb -in /Users/Ben/rat_genomes/UCSC_mouse_genome/mouse_genome_masked.fasta -dbtype nucl -title UCSC_mouse -out /Users/Ben/rat_genomes/UCSC_mouse_genome/mouse_genome_masked_blastable`
+
+for mouse, and like this:
+
+`/Users/evanslab/ncbi-blast-2.2.31+/bin/makeblastdb -in /Users/Ben/rat_genomes/UCSC_rat_genome_rn6/rn6.masked.fa -dbtype nucl -title rat_rn6 -out /Users/Ben/rat_genomes/UCSC_rat_genome_rn6/rn6.masked_blastable`
+
+for rat
 
 And then we set up a batch blast to each one line this:
 
