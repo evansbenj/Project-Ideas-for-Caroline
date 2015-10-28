@@ -1,6 +1,6 @@
 # Developing a pipeline for analysis of abyss output
 
-Or go back to the (previous page) [https://github.com/evansbenj/Project-Ideas-for-Caroline/blob/master/Project_9_rat_balls.md]
+Or go back to the [previous page] (https://github.com/evansbenj/Project-Ideas-for-Caroline/blob/master/Project_9_rat_balls.md).
 
 Caroline and Ben discussed a strategy for making sense of the abyss de novo assembly.  The plan is to take the de novo assembly (filename: ABTC26654-8.fa), which is a fasta file, and blast it against the mouse and rat genomes.  We will save the output as the top hit for each query sequence for each database.  
 
