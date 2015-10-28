@@ -7,3 +7,13 @@ Caroline and Ben discussed a strategy for making sense of the abyss de novo asse
 We think we will start by being 'liberal' with our designation of whether or not a region is on the X chromosome because we can easily test this later by looking for heterozygous sites in males, possibly from the shotgun sequences if the individual is male, which it is not for ABTC26654 but *probably* is for the other two shotgun sequences (check this, and definitely when we map the RADseq data which includes at least one male per species (I think).
 
 We downloaded to the new computer NCBI Blast version 2.2.31+ and we downloaded the mouse and rat genomes we were using (XXX and rn6 respectively) from sharcnet.
+
+First we formatted the genome files like this:
+
+`./makeblastdb -in fasta =dbtype nucl -out`
+
+And then we set up a batch blast to each one line this:
+
+`./blastn -evalue 1e-60 -query QUERY -db DB -out OUT -outfmt 6 -num_descriptions 1 -num_alignments 1`
+
+
