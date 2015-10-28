@@ -164,4 +164,4 @@ and
 
 Right now I have MVZ and ABCT running on iqaluk.  I think Caroline has JAE running on iqaluk on her account.
 
-# Continued on this (page0[https://github.com/evansbenj/Project-Ideas-for-Caroline/blob/master/9a_rats_continued.md]
+# Continued on this (page)[https://github.com/evansbenj/Project-Ideas-for-Caroline/blob/master/9a_rats_continued.md]
