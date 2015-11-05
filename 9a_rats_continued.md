@@ -24,7 +24,13 @@ And then we set up a batch blast to each one line this:
 
 # Demultiplexing and trimming the RADseq data
 
-We initially demultiplexed the RADseq data using RADpools version 1.2.4.  Here is the barcode file:
+We initially demultiplexed the RADseq data using RADpools version 1.2.4.  
+Here is the command we used:
+`RADpools -i C213_1.fastq -d rat -s -f -v -o`
+
+This uses the fuzzy barcode option (-f) which assigns missing barcodes to the nearest pool (or an unassigned pool for ties), outputs fastq files (-o), defines the quality scores as sanger (-s), and does a verbose output (-v).
+
+Here is the barcode file (referenced by -d rat flag above):
 
 ```
 MVZ180233 TCCGGAGCGC
