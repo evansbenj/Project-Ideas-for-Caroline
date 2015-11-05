@@ -33,18 +33,18 @@ notomys	ABTC26648	Female
 notomys	ABTC26649	Female
 notomys	ABTC26652 M	Male
 notomys	ABTC26653 M	Male
-dominator	JAE4305 M	Male
-dominator	JAE4306 M	Male
-dominator	JAE4307 M	Male
-dominator	JAE4358	Female
-dominator	JAE4399	Female
-dominator	KCR1615	Female
-semotus	MVZ180233 F	Female
-semotus	MVZ180235 F	Female
-semotus	MVZ180237	Female
-semotus	MVZ180239	Female
-semotus	MVZ180241	Male
-semotus	MVZ180314	Male
+Paruromys dominator 	JAE4305 M	Male
+Paruromys dominator 	JAE4306 M	Male
+Paruromys dominator 	JAE4307 M	Male
+Paruromys dominator 	JAE4358	Female
+Paruromys dominator 	JAE4399	Female
+Paruromys dominator 	KCR1615	Female
+Apodemus semotus	MVZ180233 F	Female
+Apodemus semotus	MVZ180235 F	Female
+Apodemus semotus	MVZ180237	Female
+Apodemus semotus	MVZ180239	Female
+Apodemus semotus	MVZ180241	Male
+Apodemus semotus	MVZ180314	Male
 sylvaticus	SMG3824 F	Female
 sylvaticus	SMG3893 M	Male
 sylvaticus	SMG3894	Female
