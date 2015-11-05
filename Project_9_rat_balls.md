@@ -29,7 +29,10 @@ Caroline and I are now working on the shotgun genome sequences.  Using `bwa` and
 Here is the data on the shotgun sequences:
 
 ```
-blah
+species	sample	Sex
+notomys	ABTC26654	FEMALE
+Paruromys dominator 	JAE4405	MALE
+Apodemus semotus	MVZ180318	MALE
 ```
 
 
