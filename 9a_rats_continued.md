@@ -53,7 +53,7 @@ JAE4305 GAATTGTCGC
 JAE4306 CTTCGACATA
 ```
 
-Using fastQC version XXX, I identified these repetitive sequences in the data (pooled across all samples):
+Using fastQC version 0.11.3, I identified these repetitive sequences in the data (pooled across all samples):
 ```
 >repeat1
 AGCAATCTAATGCAGGAGCTCCAGCATGGATAGGAGAGGGGCTCCCACAC
