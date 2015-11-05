@@ -24,7 +24,7 @@ And then we set up a batch blast to each one line this:
 
 # Demultiplexing and trimming the RADseq data
 
-We initially demultiplexed the RADseq data using RADpools.  Here is the barcode file:
+We initially demultiplexed the RADseq data using RADpools version 1.2.4.  Here is the barcode file:
 
 ```
 MVZ180233 TCCGGAGCGC
@@ -111,7 +111,7 @@ TGCAGGCCAGAAGATTATTATAGACGTTGTTCCTTATCTCATTACAGATG
 TGCAGGCCTGGAACTTGCTCTGTAGACTTCATTAGCCTCAAACTCACAGT
 ```
 
-I then used Trimmomatic version XXX on to cleanup all samples using this perl script:
+I then used Trimmomatic version 0.33 on to cleanup all samples using this perl script:
 
 ``` perl
 #!/usr/bin/perl
