@@ -24,6 +24,35 @@ And then we set up a batch blast to each one line this:
 
 # Demultiplexing and trimming the RADseq data
 
+Here is the data for the RADseq samples:
+```
+species	sample (RADseq)	Sex
+notomys	ABTC26646	Female
+notomys	ABTC26647	Female
+notomys	ABTC26648	Female
+notomys	ABTC26649	Female
+notomys	ABTC26652 M	Male
+notomys	ABTC26653 M	Male
+dominator	JAE4305 M	Male
+dominator	JAE4306 M	Male
+dominator	JAE4307 M	Male
+dominator	JAE4358	Female
+dominator	JAE4399	Female
+dominator	KCR1615	Female
+semotus	MVZ180233 F	Female
+semotus	MVZ180235 F	Female
+semotus	MVZ180237	Female
+semotus	MVZ180239	Female
+semotus	MVZ180241	Male
+semotus	MVZ180314	Male
+sylvaticus	SMG3824 F	Female
+sylvaticus	SMG3893 M	Male
+sylvaticus	SMG3894	Female
+sylvaticus	SMG902	Female
+sylvaticus	SMG3909	Female
+sylvaticus	SMG3910	Female
+```
+
 We initially demultiplexed the RADseq data using RADpools version 1.2.4.  
 Here is the command we used:
 `RADpools -i C213_1.fastq -d rat -s -f -v -o`
