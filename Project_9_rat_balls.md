@@ -174,4 +174,55 @@ and
 
 Right now I have MVZ and ABCT running on iqaluk.  I think Caroline has JAE running on iqaluk on her account.
 
+## New Stampy update
+
+Stampy finished on the ABTC mapps to the mouse and to the rat genomes.  I ran a perl script to convert the `sam` files to `bam` files and then ran samtools flagstat to assess coverage.  Here is the perl script:
+
+``` perl
+#!/usr/bin/perl                                                                                                                                                                                                       
+use warnings;
+use strict;
+
+# This script will execute alignment functions for paired end reads                                                                                                                                                   
+# launch it in sharcnet like this:                                                                                                                                                                                    
+# sqsub -r 7d --mpp=10G -o shotgun_rat.out perl shotgun_alignment_to_rat.pl                                                                                                                                           
+
+
+my $path_to_bwa="/work/ben/macaque_RAD_TAGs/bwa-0.6.2";
+my $path_to_samtools="/work/ben/macaque_RAD_TAGs/samtools-0.1.18";
+my $path_to_data="/work/ben/2015_rat_genomes/ABTC26654";
+my $path_to_genome="/work/ben/rat_balls/rat_genome_rn6";
+my $genome="rn6.masked.fa";
+my $individual="ABTC26654";
+
+my $commandline;
+my $status;
+
+#$commandline = $path_to_bwa."\/bwa aln ".$path_to_genome."\/".$genome." ".$path_to_data."\/".$individual."_R1_trim_paired.fastq \> ".$path_to_data."\/".$individual."_R1_trim_paired.fastq_rat.sai";                 
+#$status = system($commandline);                                                                                                                                                                                      
+#$commandline = $path_to_bwa."\/bwa aln ".$path_to_genome."\/".$genome." ".$path_to_data."\/".$individual."_R2_trim_paired.fastq \> ".$path_to_data."\/".$individual."_R2_trim_paired.fastq_rat.sai";                 
+#$status = system($commandline);                                                                                                                                                                                      
+#$commandline = $path_to_bwa."\/bwa aln ".$path_to_genome."\/".$genome." ".$path_to_data."\/".$individual."_R1_trim_single.fastq \> ".$path_to_data."\/".$individual."_R1_trim_single.fastq_rat.sai";                 
+#$status = system($commandline);                                                                                                                                                                                      
+#$commandline = $path_to_bwa."\/bwa aln ".$path_to_genome."\/".$genome." ".$path_to_data."\/".$individual."_R2_trim_single.fastq \> ".$path_to_data."\/".$individual."_R2_trim_single.fastq_rat.sai";                 
+#$status = system($commandline);                                                                                                                                                                                      
+
+#$commandline = $path_to_bwa."\/bwa sampe -r \"\@RG\\tID:FLOWCELL1.LANE6\\tSM:".$individual."\\tPL:illumina\" ". $path_to_genome."\/".$genome." ". $path_to_data."\/".$individual."_R1_trim_paired.fastq_rat.sai ".$p\
+ath_to_data."\/".$individual."_R2_trim_paired.fastq_rat.sai ".$path_to_data."\/".$individual."_R1_trim_paired.fastq ".$path_to_data."\/".$individual."_R2_trim_paired.fastq \> ".$path_to_data."\/".$individual."_rat\
+.sam";                                                                                                                                                                                                                
+#$status = system($commandline);                                                                                                                                                                                      
+
+$commandline=$path_to_samtools."\/samtools view -bt ".$path_to_genome."\/".$genome." -o ".$path_to_data."\/".$individual."_stampy_rat_paired.bam ".$path_to_data."\/".$individual."_stampy_rat_paired.sam";
+$status = system($commandline);
+$commandline=$path_to_samtools."\/samtools sort ".$path_to_data."\/".$individual."_stampy_rat_paired.bam ".$path_to_data."\/".$individual."_stampy_rat_paired_sorted";
+$status = system($commandline);
+$commandline= $path_to_samtools."\/samtools index ".$path_to_data."\/".$individual."_stampy_rat_paired_sorted.bam";
+$status = system($commandline);
+
+```
+and here is the flagstat command and output for the rat alignment:
+
+`/work/ben/macaque_RAD_TAGs/samtools-0.1.18/samtools flagstat ABTC26654_stampy_rat_paired_sorted.bam > stampy_rat_paired_sorted_flagstat.txt`
+
+
 # Continued on this [page](https://github.com/evansbenj/Project-Ideas-for-Caroline/blob/master/9a_rats_continued.md).
