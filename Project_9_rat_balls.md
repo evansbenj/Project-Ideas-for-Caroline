@@ -224,5 +224,39 @@ and here is the flagstat command and output for the rat alignment:
 
 `/work/ben/macaque_RAD_TAGs/samtools-0.1.18/samtools flagstat ABTC26654_stampy_rat_paired_sorted.bam > stampy_rat_paired_sorted_flagstat.txt`
 
+and here is the output for mouse and rat respectively:
+
+```
+[ben@iqaluk:/work/ben/2015_rat_genomes/ABTC26654] more ABTC26654_stampy_mouse_paired_sorted_flagstat.txt
+308453936 + 0 in total (QC-passed reads + QC-failed reads)
+0 + 0 duplicates
+156399253 + 0 mapped (50.70%:-nan%)
+308453936 + 0 paired in sequencing
+154226968 + 0 read1
+154226968 + 0 read2
+83585952 + 0 properly paired (27.10%:-nan%)
+110834536 + 0 with itself and mate mapped
+45564717 + 0 singletons (14.77%:-nan%)
+21827066 + 0 with mate mapped to a different chr
+6850798 + 0 with mate mapped to a different chr (mapQ>=5)
+```
+
+and 
+```
+[ben@iqaluk:/work/ben/2015_rat_genomes/ABTC26654] more stampy_rat_paired_sorted_flagstat.txt
+308453936 + 0 in total (QC-passed reads + QC-failed reads)
+0 + 0 duplicates
+155164825 + 0 mapped (50.30%:-nan%)
+308453936 + 0 paired in sequencing
+154226968 + 0 read1
+154226968 + 0 read2
+85580326 + 0 properly paired (27.74%:-nan%)
+107614758 + 0 with itself and mate mapped
+47550067 + 0 singletons (15.42%:-nan%)
+16268266 + 0 with mate mapped to a different chr
+10671630 + 0 with mate mapped to a different chr (mapQ>=5)
+```
+
+In general, this looks not bad - I think the key statistic is that ~50% of the data appears to have mapped to each genome.
 
 # Continued on this [page](https://github.com/evansbenj/Project-Ideas-for-Caroline/blob/master/9a_rats_continued.md).
