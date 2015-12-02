@@ -146,7 +146,7 @@ TGCAGGCCAGAAGATTATTATAGACGTTGTTCCTTATCTCATTACAGATG
 TGCAGGCCTGGAACTTGCTCTGTAGACTTCATTAGCCTCAAACTCACAGT
 ```
 
-I then used Trimmomatic version 0.33 on to cleanup all samples using this perl script:
+I then used Trimmomatic version 0.33 on to cleanup all samples using this perl script (Step_1_trimmomatic.pl):
 
 ``` perl
 #!/usr/bin/perl
