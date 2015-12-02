@@ -173,7 +173,7 @@ use warnings;
 use strict;
 
 # This script will index a genome fasta file using the 
-# new bwa HTSlib commands  
+# old bwa commands (not the HTSlib - this ended up stalling for GATK)
 
 my $path_to_reference_genome="/home/ben/2015_rat_RADtags/reference_genomez_from_abyss/";
 my $reference_genome="ABTC26654-8.fa";
@@ -182,7 +182,7 @@ my $status;
 my $commandline;
 
 # index the reference genome
-$commandline = "bwa index ".$path_to_reference_genome.$reference_genome;
+$commandline = "bwa index  -a bwtsw ".$path_to_reference_genome.$reference_genome;
 $status = system($commandline);
 
 # make a fai index file for GATK
