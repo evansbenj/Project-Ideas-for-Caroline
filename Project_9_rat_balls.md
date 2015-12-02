@@ -30,7 +30,7 @@ Here is the data on the shotgun sequences:
 
 ```
 species	sample	Sex
-notomys	ABTC26654	FEMALE
+Notomys	ABTC26654	FEMALE
 Paruromys dominator 	JAE4405	MALE
 Apodemus semotus	MVZ180318	MALE
 ```
