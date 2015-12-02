@@ -35,6 +35,7 @@ Paruromys dominator 	JAE4405	MALE
 Apodemus semotus	MVZ180318	MALE
 ```
 
+Note that none of these samples was used in the RADseq data.  So if we can get genotype data from them in addition to the sequence data, this would be an extra individual for each species.
 
 Here is the perl script:
 ```perl
