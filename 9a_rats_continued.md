@@ -27,30 +27,30 @@ And then we set up a batch blast to each one line this:
 Here is the data for the RADseq samples:
 ```
 species	sample (RADseq)	Sex
-notomys	ABTC26646	Female
-notomys	ABTC26647	Female
-notomys	ABTC26648	Female
-notomys	ABTC26649	Female
-notomys	ABTC26652 M	Male
-notomys	ABTC26653 M	Male
-Paruromys dominator 	JAE4305 M	Male
-Paruromys dominator 	JAE4306 M	Male
-Paruromys dominator 	JAE4307 M	Male
+Notomys	ABTC26646	Female
+Notomys	ABTC26647	Female
+Notomys	ABTC26648	Female
+Notomys	ABTC26649	Female
+Notomys	ABTC26652	Male
+Notomys	ABTC26653	Male
+Paruromys dominator 	JAE4305	Male
+Paruromys dominator 	JAE4306	Male
+Paruromys dominator 	JAE4307	Male
 Paruromys dominator 	JAE4358	Female
 Paruromys dominator 	JAE4399	Female
 Paruromys dominator 	KCR1615	Female
-Apodemus semotus	MVZ180233 F	Female
-Apodemus semotus	MVZ180235 F	Female
+Apodemus semotus	MVZ180233	Female
+Apodemus semotus	MVZ180235	Female
 Apodemus semotus	MVZ180237	Female
 Apodemus semotus	MVZ180239	Female
 Apodemus semotus	MVZ180241	Male
 Apodemus semotus	MVZ180314	Male
-sylvaticus	SMG3824 F	Female
-sylvaticus	SMG3893 M	Male
-sylvaticus	SMG3894	Female
-sylvaticus	SMG902	Female
-sylvaticus	SMG3909	Female
-sylvaticus	SMG3910	Female
+Apodemus sylvaticus	SMG3824	Female
+Apodemus sylvaticus	SMG3893	Male
+Apodemus sylvaticus	SMG3894	Female
+Apodemus sylvaticus	SMG902	Female
+Apodemus sylvaticus	SMG3909	Female
+Apodemus sylvaticus	SMG3910	Female
 ```
 
 We initially demultiplexed the RADseq data using RADpools version 1.2.4.  
