@@ -282,3 +282,5 @@ $commandline = $commandline." -out_mode EMIT_ALL_CONFIDENT_SITES -o ./recal_alls
 $status = system($commandline);
 
 ```
+
+The problem is that with the trial using the ABCT genome assembly, the pipeline is stalling at the "RealignerTargetCreator" stage. Not sure why.
