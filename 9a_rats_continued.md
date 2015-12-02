@@ -283,4 +283,4 @@ $status = system($commandline);
 
 ```
 
-The problem is that with the trial using the ABCT genome assembly, the pipeline is stalling at the "RealignerTargetCreator" stage. Not sure why.
+The problem is that with the trial using the ABCT genome assembly, the pipeline is stalling at the "RealignerTargetCreator" stage. Not sure why. 
