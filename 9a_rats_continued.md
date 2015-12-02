@@ -164,3 +164,123 @@ foreach(@files){
 	$status = system($commandline);
 }
 ```
+
+Then I indexed the abyss assembly line this (Step_2_index_genome.pl):
+
+```perl
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+# This script will index a genome fasta file using the 
+# new bwa HTSlib commands  
+
+my $path_to_reference_genome="/home/ben/2015_rat_RADtags/reference_genomez_from_abyss/";
+my $reference_genome="ABTC26654-8.fa";
+my $path_to_picard = "/usr/local/picard-tools-1.131/";
+my $status;
+my $commandline;
+
+# index the reference genome
+$commandline = "bwa index ".$path_to_reference_genome.$reference_genome;
+$status = system($commandline);
+
+# make a fai index file for GATK
+$commandline = "samtools faidx ".$path_to_reference_genome.$reference_genome;
+$status = system($commandline);
+# make a dict file for this genome
+$commandline = "java -jar ".$path_to_picard."picard.jar CreateSequenceDictionary REFERENCE=".$path_to_reference_genome.$reference_genome." OUTPUT=".$path_to_reference_genome.$reference_genome.".dict";
+$status = system($commandline);
+
+# fix name of dict file
+my $y = substr($reference_genome, 0, rindex($reference_genome, '.'));
+$commandline="mv ".$path_to_reference_genome.$reference_genome.".dict ".$path_to_reference_genome.$y.".dict";
+$status = system($commandline);
+````
+And then I mapped the reads like this (Step_3_align_RADtags.pl):
+
+``` perl
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+# This script will index a genome fasta file using the 
+# new bwa HTSlib commands  
+
+my $path_to_reference_genome="/home/ben/2015_rat_RADtags/reference_genomez_from_abyss/";
+my $reference_genome="ABTC26654-8.fa";
+my $path_to_GATK="/usr/local/gatk/";
+my $path_to_picard = "/usr/local/picard-tools-1.131/";
+my $commandline;
+my $status;
+
+my @files = glob("ABTC*fastq.gz");
+
+#foreach(@files){
+#    # align the data for each individual
+#    $commandline = "bwa mem -M -t 4 ".$path_to_reference_genome.$reference_genome." -R \'\@RG\\tID:".$_."\\tSM:".$_."\\tLB:library1\\tPL:illumina\' ".$_." | gzip -3 > ".$_.".sam";
+#    $status = system($commandline);
+#    # convert the sam file to a sorted bam file with picard
+#    $commandline = "java -jar ".$path_to_picard."picard.jar SortSam INPUT=".$_.".sam OUTPUT=".$_.".sorted.bam SORT_ORDER=coordinate";
+#    $status = system($commandline);
+#    # delete the sam file
+#    $commandline = "rm -f ".$_.".sam";
+#    $status = system($commandline);
+#    $commandline = "java -jar ".$path_to_picard."picard.jar BuildBamIndex INPUT=".$_.".sorted.bam";                       
+#    $status = system($commandline);                                                            
+                           
+#    $commandline = "cp ".$_.".sorted.bam.bai ".$_."sorted.bai";
+#    $status = system($commandline);
+#}
+
+# Now identify Indels
+$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T RealignerTargetCreator
+ -nt 8";
+foreach(@files){
+    $commandline = $commandline." -I ".$_."sorted.bam ";
+}
+$commandline = $commandline."-R ".$path_to_reference_genome.$reference_genome." -o indel.intervals";
+print $commandline,"\n";
+$status = system($commandline);
+
+# Now realign indels
+$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T IndelRealigner ";
+foreach(@files){
+    $commandline = $commandline." -I ".$_."sorted.bam ";
+}
+$commandline = $commandline."-R ".$path_to_reference_genome.$reference_genome." --targetIntervals indel.intervals --nWayOut.realigned.bam";
+$status = system($commandline);
+
+# Now recalibrate bases; first emit nonrecal variants
+$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T UnifiedGenotyper -R ".
+$path_to_reference_genome.$reference_genome;
+foreach(@files){
+    $commandline = $commandline." -I ".$_.".sorted.realigned.bam ";
+}
+$commandline = $commandline." -out_mode EMIT_VARIANTS_ONLY -o ./nonrecal_varonly.vcf";
+$status = system($commandline);
+
+# Now do baserecalibration
+$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T BaseRecalibrator -R ".
+$path_to_reference_genome.$reference_genome;
+foreach(@files){
+    $commandline = $commandline." -I ".$_.".sorted.realigned.bam ";
+}
+$commandline = $commandline." -knownSites ./nonrecal_varonly.vcf -o recal.table";
+$status = system($commandline);
+
+# Print new concatenated recalibrated bam
+$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T PrintReads -R ".$path_to_reference_genome.$reference_genome;
+foreach(@files){
+    $commandline = $commandline." -I ".$_.".sorted.realigned.bam ";
+}
+$commandline = $commandline."-BQSR recal.table -o all_recal_round1.bam";
+$status = system($commandline);
+
+# Now call all sites
+$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T UnifiedGenotyper -R ".$path_to_reference_genome.$reference_genome;
+$commandline = $commandline." -I all_recal_round1.bam ";
+$commandline = $commandline." -out_mode EMIT_ALL_CONFIDENT_SITES -o ./recal_allsites.vcf";
+$status = system($commandline);
+
+```
