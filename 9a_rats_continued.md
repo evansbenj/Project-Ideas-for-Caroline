@@ -27,12 +27,12 @@ And then we set up a batch blast to each one line this:
 Here is the data for the RADseq samples:
 ```
 species	sample (RADseq)	Sex
-Notomys	ABTC26646	Female
-Notomys	ABTC26647	Female
-Notomys	ABTC26648	Female
-Notomys	ABTC26649	Female
-Notomys	ABTC26652	Male
-Notomys	ABTC26653	Male
+Notomys	mitchelli ABTC26646	Female
+Notomys	mitchelli ABTC26647	Female
+Notomys	mitchelli ABTC26648	Female
+Notomys	mitchelli ABTC26649	Female
+Notomys	mitchelli ABTC26652	Male
+Notomys	mitchelli ABTC26653	Male
 Paruromys dominator 	JAE4305	Male
 Paruromys dominator 	JAE4306	Male
 Paruromys dominator 	JAE4307	Male
