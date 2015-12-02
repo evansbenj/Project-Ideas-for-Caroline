@@ -252,8 +252,7 @@ $commandline = $commandline."-R ".$path_to_reference_genome.$reference_genome." 
 $status = system($commandline);
 
 # Now recalibrate bases; first emit nonrecal variants
-$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T UnifiedGenotyper -R ".
-$path_to_reference_genome.$reference_genome;
+$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T UnifiedGenotyper -R ".$path_to_reference_genome.$reference_genome;
 foreach(@files){
     $commandline = $commandline." -I ".$_.".sorted.realigned.bam ";
 }
@@ -261,8 +260,7 @@ $commandline = $commandline." -out_mode EMIT_VARIANTS_ONLY -o ./nonrecal_varonly
 $status = system($commandline);
 
 # Now do baserecalibration
-$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T BaseRecalibrator -R ".
-$path_to_reference_genome.$reference_genome;
+$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T BaseRecalibrator -R ".$path_to_reference_genome.$reference_genome;
 foreach(@files){
     $commandline = $commandline." -I ".$_.".sorted.realigned.bam ";
 }
