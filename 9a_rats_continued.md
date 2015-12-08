@@ -424,4 +424,4 @@ for ($y = 0 ; $y < 6 ; $y++ ) {
 
 ```
 
-This will then be used as the reference genome for mapping.  And we have bed files that can easily (hopefully) be used to remove contigs that have heterozygous sites in males.  Woo hoo!!!
+This will then be used as the reference genome for mapping.  And we have bed files that can easily (hopefully) be used to remove contigs that have heterozygous sites in males using scripts above.  Woo hoo!!!
