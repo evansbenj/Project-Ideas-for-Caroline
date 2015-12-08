@@ -352,11 +352,6 @@ for ($y = 0 ; $y < 6 ; $y++ ) {
 	$number_of_entries[$y]=$counter-1;
 }
 
-# open the abyss assembly file
-unless (open DATAINPUT6, $input[6]) {
-	print "Can not find the abyss assembly input file $y.\n";
-	exit;
-}
 
 
 # open the concat fasta output file
@@ -380,6 +375,7 @@ for ($y = 0 ; $y < 6 ; $y++ ) {
 		exit;
 	}
 	print "Creating output file: $output[$y]\n";
+	
 	if($y == 0){
 		print OUTFILE6 ">chrX_m_chrX_r\n";
 	}
@@ -398,13 +394,19 @@ for ($y = 0 ; $y < 6 ; $y++ ) {
 	elsif($y == 5){
 		print OUTFILE6 ">chrA_m_chrU_r\n";
 	}
+
+	# open the abyss assembly file
+	unless (open DATAINPUT6, $input[6]) {
+		print "Can not find the abyss assembly input file $y.\n";
+		exit;
+	}
 	
 	# now cycle through and print out the sequences from
 	# only those contigs in the list for this chr	
 	while ( my $line = <DATAINPUT6>) {
 		@temp=split(/[>\s]/,$line);
 		if(($switch == 1)&&($line !~ /^>/)){
-			print OUTFILE6 $temp[0];
+			print OUTFILE6 $temp[0],"\n";
 			$switch=0;
 		}
 		elsif($line =~ /^>/){
@@ -418,7 +420,8 @@ for ($y = 0 ; $y < 6 ; $y++ ) {
 			}
 		}
 	}
-	print OUTFILE6 "\n";
+	close DATAINPUT6;
+	#print OUTFILE6 "\n";
 }
 
 
