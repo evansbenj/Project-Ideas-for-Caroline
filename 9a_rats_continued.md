@@ -284,3 +284,144 @@ $status = system($commandline);
 ```
 
 The problem is that with the trial using the ABCT genome assembly, the pipeline is stalling at the "RealignerTargetCreator" stage. Not sure why. 
+
+# UPDATE
+
+OK, based on a brief comment in the GATK forum, it is now clear to me that GATK was not designed to work with reference genomes with many, many contigs.  So we now have a quick fix.  Based on the BLAST results of the abyss assembly to the mouse and rat genomes, we are making 5 "supercontigs" using this perl script:
+
+```perl
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use List::MoreUtils qw/ uniq /;
+
+
+# This program will read in a several lists of contig names
+# that were generated based on a blast run against mouse and
+# rat genomes.  It will then make a master fastafile that includes
+# concatenated reads from the following types of contigs:
+# (1) contigs with a top blast hit to mouse chrX and rat chrX
+# (2) contigs with a top blast hit to mouse chrX but a rat autosome
+# (3) contigs with a top blast hit to rat chrX but a mouse autosome
+# (4) contigs with a top blast hit to mouse chrX and a rat unknown region
+# (5) contigs with a top blast hit to mouse autosome and a rat autosome
+# (6) contigs with a top blast hit to mouse autosome and a rat unknown region
+
+# Combines_abyss_output_into_supercontigs.pl ./abyss_contig_blast_lists/ABTC/Xmouse_AND_Xrat_ABTC.txt ./abyss_contig_blast_lists/ABTC/Xmouse_AND_Arat_ABTC.txt ./abyss_contig_blast_lists/ABTC/Amouse_AND_Xrat_ABTC.txt ./abyss_contig_blast_lists/ABTC/Xmouse_AND_Urat_ABTC.txt ./abyss_contig_blast_lists/ABTC/Amouse_AND_Arat_ABTC.txt ./abyss_contig_blast_lists/ABTC/Amouse_AND_Urat_ABTC.txt ../reference_genomez_from_abyss/ABTC26654-8.fa ./abyss_contig_blast_lists/ABTC/Xmouse_AND_Xrat_ABTC.bed ./abyss_contig_blast_lists/ABTC/Xmouse_AND_Arat_ABTC.bed ./abyss_contig_blast_lists/ABTC/Amouse_AND_Xrat_ABTC.bed ./abyss_contig_blast_lists/ABTC/Xmouse_AND_Urat_ABTC.bed ./abyss_contig_blast_lists/ABTC/Amouse_AND_Arat_ABTC.bed ./abyss_contig_blast_lists/ABTC/Amouse_AND_Urat_ABTC.bed ../reference_genomez_from_abyss/ABTC26654-8_concat.fa
+# Combines_abyss_output_into_supercontigs.pl ./abyss_contig_blast_lists/MVZ/Xmouse_AND_Xrat_MVZ.txt ./abyss_contig_blast_lists/MVZ/Xmouse_AND_Arat_MVZ.txt ./abyss_contig_blast_lists/MVZ/Amouse_AND_Xrat_MVZ.txt ./abyss_contig_blast_lists/MVZ/Xmouse_AND_Urat_MVZ.txt ./abyss_contig_blast_lists/MVZ/Amouse_AND_Arat_MVZ.txt ./abyss_contig_blast_lists/MVZ/Amouse_AND_Urat_MVZ.txt ../reference_genomez_from_abyss/MVZ180318-8.fa ./abyss_contig_blast_lists/MVZ/Xmouse_AND_Xrat_ABTC.bed ./abyss_contig_blast_lists/MVZ/Xmouse_AND_Arat_ABTC.bed ./abyss_contig_blast_lists/MVZ/Amouse_AND_Xrat_ABTC.bed ./abyss_contig_blast_lists/MVZ/Xmouse_AND_Urat_ABTC.bed ./abyss_contig_blast_lists/MVZ/Amouse_AND_Arat_ABTC.bed ./abyss_contig_blast_lists/MVZ/Amouse_AND_Urat_ABTC.bed ../reference_genomez_from_abyss/MVZ180318-8_concat.fa
+# Combines_abyss_output_into_supercontigs.pl ./abyss_contig_blast_lists/JAE/Xmouse_AND_Xrat_JAE.txt ./abyss_contig_blast_lists/JAE/Xmouse_AND_Arat_JAE.txt ./abyss_contig_blast_lists/JAE/Amouse_AND_Xrat_JAE.txt ./abyss_contig_blast_lists/JAE/Xmouse_AND_Urat_JAE.txt ./abyss_contig_blast_lists/JAE/Amouse_AND_Arat_JAE.txt ./abyss_contig_blast_lists/JAE/Amouse_AND_Urat_JAE.txt ../reference_genomez_from_abyss/JAE4405-8.fa ./abyss_contig_blast_lists/JAE/Xmouse_AND_Xrat_ABTC.bed ./abyss_contig_blast_lists/JAE/Xmouse_AND_Arat_ABTC.bed ./abyss_contig_blast_lists/JAE/Amouse_AND_Xrat_ABTC.bed ./abyss_contig_blast_lists/JAE/Xmouse_AND_Urat_ABTC.bed ./abyss_contig_blast_lists/JAE/Amouse_AND_Arat_ABTC.bed ./abyss_contig_blast_lists/JAE/Amouse_AND_Urat_ABTC.bed ../reference_genomez_from_abyss/JAE4405-8_concat.fa
+
+my $minimum_length_of_contig_to_include = 500;
+
+my @input;
+$input[0] = $ARGV[0]; #This is list 1 defined above >chrX_m_chrX_r
+$input[1] = $ARGV[1]; #This is list 2 defined above >chrX_m_chrA_r
+$input[2] = $ARGV[2]; #This is list 3 defined above >chrA_m_chrX_r
+$input[3] = $ARGV[3]; #This is list 4 defined above >chrX_m_chrU_r
+$input[4] = $ARGV[4]; #This is list 5 defined above >chrA_m_chrA_r
+$input[5] = $ARGV[5]; #This is list 6 defined above >chrA_m_chrU_r
+$input[6] = $ARGV[6]; #This is the input abyss assembly
+
+my @output;
+$output[0] = $ARGV[7]; # This is the bedfile for >chrX_m_chrX_r
+$output[1] = $ARGV[8]; # This is the bedfile for >chrX_m_chrA_r
+$output[2] = $ARGV[9]; # This is the bedfile for >chrA_m_chrX_r
+$output[3] = $ARGV[10]; # This is the bedfile for >chrX_m_chrU_r
+$output[4] = $ARGV[11]; # This is the bedfile for >chrA_m_chrA_r
+$output[5] = $ARGV[12]; # This is the bedfile for >chrA_m_chrU_r
+
+$output[6] = $ARGV[13]; # This is the fastaoutputfile 
+
+my $y;
+my $counter;
+my @temp;
+my %list;
+my @number_of_entries;
+
+for ($y = 0 ; $y < 6 ; $y++ ) {
+	$counter=0;
+	unless (open DATAINPUT, $input[$y]) {
+		print "Can not find the input file $y.\n";
+		exit;
+	}
+	while ( my $line = <DATAINPUT>) {
+		@temp=split(/\s+/,$line);
+		$list{$y}[$temp[0]]="keep_me";
+		$counter+=1;
+	}
+	$number_of_entries[$y]=$counter-1;
+}
+
+# open the abyss assembly file
+unless (open DATAINPUT6, $input[6]) {
+	print "Can not find the abyss assembly input file $y.\n";
+	exit;
+}
+
+
+# open the concat fasta output file
+unless (open(OUTFILE6, ">$output[6]"))  {
+	print "I can\'t write to $output[6]\n";
+	exit;
+}
+print "Creating output file: $output[6]\n";
+
+# now, for each list, make the concatenated chromosome
+# and print it to the outfile
+# and make a bed file
+
+my $switch=0;
+my $last_position=0;
+for ($y = 0 ; $y < 6 ; $y++ ) {
+	$switch=0;
+	$last_position=0;
+	unless (open(OUTFILE, ">$output[$y]"))  {
+		print "I can\'t write to $output[$y]\n";
+		exit;
+	}
+	print "Creating output file: $output[$y]\n";
+	if($y == 0){
+		print OUTFILE6 ">chrX_m_chrX_r\n";
+	}
+	elsif($y == 1){
+		print OUTFILE6 ">chrX_m_chrA_r\n";
+	}
+	elsif($y == 2){
+		print OUTFILE6 ">chrA_m_chrX_r\n";
+	}
+	elsif($y == 3){
+		print OUTFILE6 ">chrX_m_chrU_r\n";
+	}
+	elsif($y == 4){
+		print OUTFILE6 ">chrA_m_chrA_r\n";
+	}
+	elsif($y == 5){
+		print OUTFILE6 ">chrA_m_chrU_r\n";
+	}
+	
+	# now cycle through and print out the sequences from
+	# only those contigs in the list for this chr	
+	while ( my $line = <DATAINPUT6>) {
+		@temp=split(/[>\s]/,$line);
+		if(($switch == 1)&&($line !~ /^>/)){
+			print OUTFILE6 $temp[0];
+			$switch=0;
+		}
+		elsif($line =~ /^>/){
+			if((defined($list{$y}[$temp[1]]))&&($temp[2]>$minimum_length_of_contig_to_include)){
+				$switch = 1;
+				print OUTFILE $temp[1],"\t",$last_position+1,"\t",$last_position+$temp[2],"\n";
+				$last_position = $last_position+$temp[2];
+			}
+			else{
+				$switch = 0;
+			}
+		}
+	}
+	print OUTFILE6 "\n";
+}
+
+
+```
+
+This will then be used as the reference genome for mapping.  And we have bed files that can easily (hopefully) be used to remove contigs that have heterozygous sites in males.  Woo hoo!!!
