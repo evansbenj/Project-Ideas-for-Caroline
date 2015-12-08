@@ -290,6 +290,7 @@ The problem is that with the trial using the ABCT genome assembly, the pipeline 
 OK, based on a brief comment in the GATK forum, it is now clear to me that GATK was not designed to work with reference genomes with many, many contigs.  So we now have a quick fix.  Based on the BLAST results of the abyss assembly to the mouse and rat genomes, we are making 5 "supercontigs" using this perl script:
 
 ```perl
+
 #!/usr/bin/env perl
 use strict;
 use warnings;
@@ -333,6 +334,7 @@ $output[5] = $ARGV[12]; # This is the bedfile for >chrA_m_chrU_r
 $output[6] = $ARGV[13]; # This is the fastaoutputfile 
 
 my $y;
+my $x;
 my $counter;
 my @temp;
 my %list;
@@ -367,6 +369,8 @@ print "Creating output file: $output[6]\n";
 
 my $switch=0;
 my $last_position=0;
+my $seq_length=0;
+
 for ($y = 0 ; $y < 6 ; $y++ ) {
 	$switch=0;
 	$last_position=0;
@@ -406,14 +410,28 @@ for ($y = 0 ; $y < 6 ; $y++ ) {
 	while ( my $line = <DATAINPUT6>) {
 		@temp=split(/[>\s]/,$line);
 		if(($switch == 1)&&($line !~ /^>/)){
-			print OUTFILE6 $temp[0],"\n";
+			until(length($temp[0]) < 80){
+				print OUTFILE6 substr($temp[0], 0, 80),"\n";
+				$temp[0] = substr($temp[0],80);
+			}
+			print OUTFILE6 $temp[0];
+			for($x = 0 ; $x < (80-length($temp[0])) ; $x++ ) {
+				print OUTFILE6 "N";
+			}
+			print OUTFILE6 "\n";
+			for($x = 0 ; $x < 80 ; $x++ ) {
+				print OUTFILE6 "N";
+			}	
+			print OUTFILE6 "\n";
+			print OUTFILE $last_position+$seq_length+(160-length($temp[0])),"\n";
+			$last_position = $last_position+$seq_length+(160-length($temp[0]));
 			$switch=0;
 		}
 		elsif($line =~ /^>/){
 			if((defined($list{$y}[$temp[1]]))&&($temp[2]>$minimum_length_of_contig_to_include)){
 				$switch = 1;
-				print OUTFILE $temp[1],"\t",$last_position+1,"\t",$last_position+$temp[2],"\n";
-				$last_position = $last_position+$temp[2];
+				$seq_length=$temp[2];
+				print OUTFILE $temp[1],"\t",$last_position+1,"\t";
 			}
 			else{
 				$switch = 0;
