@@ -370,7 +370,6 @@ print "Creating output file: $output[6]\n";
 my $switch=0;
 my $last_position=0;
 my $seq_length=0;
-
 for ($y = 0 ; $y < 6 ; $y++ ) {
 	$switch=0;
 	$last_position=0;
@@ -441,6 +440,7 @@ for ($y = 0 ; $y < 6 ; $y++ ) {
 	close DATAINPUT6;
 	#print OUTFILE6 "\n";
 }
+
 
 
 ```
