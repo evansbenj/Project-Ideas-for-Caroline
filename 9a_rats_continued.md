@@ -165,129 +165,8 @@ foreach(@files){
 }
 ```
 
-Then I indexed the abyss assembly line this (Step_2_index_genome.pl):
 
-```perl
-#!/usr/bin/perl
-use warnings;
-use strict;
-
-# This script will index a genome fasta file using the 
-# old bwa commands (not the HTSlib - this ended up stalling for GATK)
-
-my $path_to_reference_genome="/home/ben/2015_rat_RADtags/reference_genomez_from_abyss/";
-my $reference_genome="ABTC26654-8.fa";
-my $path_to_picard = "/usr/local/picard-tools-1.131/";
-my $status;
-my $commandline;
-
-# index the reference genome
-$commandline = "bwa index  -a bwtsw ".$path_to_reference_genome.$reference_genome;
-$status = system($commandline);
-
-# make a fai index file for GATK
-$commandline = "samtools faidx ".$path_to_reference_genome.$reference_genome;
-$status = system($commandline);
-# make a dict file for this genome
-$commandline = "java -jar ".$path_to_picard."picard.jar CreateSequenceDictionary REFERENCE=".$path_to_reference_genome.$reference_genome." OUTPUT=".$path_to_reference_genome.$reference_genome.".dict";
-$status = system($commandline);
-
-# fix name of dict file
-my $y = substr($reference_genome, 0, rindex($reference_genome, '.'));
-$commandline="mv ".$path_to_reference_genome.$reference_genome.".dict ".$path_to_reference_genome.$y.".dict";
-$status = system($commandline);
-````
-And then I mapped the reads like this (Step_3_align_RADtags.pl):
-
-``` perl
-#!/usr/bin/perl
-use warnings;
-use strict;
-
-# This script will index a genome fasta file using the 
-# new bwa HTSlib commands  
-
-my $path_to_reference_genome="/home/ben/2015_rat_RADtags/reference_genomez_from_abyss/";
-my $reference_genome="ABTC26654-8.fa";
-my $path_to_GATK="/usr/local/gatk/";
-my $path_to_picard = "/usr/local/picard-tools-1.131/";
-my $commandline;
-my $status;
-
-my @files = glob("ABTC*fastq.gz");
-
-#foreach(@files){
-#    # align the data for each individual
-#    $commandline = "bwa mem -M -t 4 ".$path_to_reference_genome.$reference_genome." -R \'\@RG\\tID:".$_."\\tSM:".$_."\\tLB:library1\\tPL:illumina\' ".$_." | gzip -3 > ".$_.".sam";
-#    $status = system($commandline);
-#    # convert the sam file to a sorted bam file with picard
-#    $commandline = "java -jar ".$path_to_picard."picard.jar SortSam INPUT=".$_.".sam OUTPUT=".$_.".sorted.bam SORT_ORDER=coordinate";
-#    $status = system($commandline);
-#    # delete the sam file
-#    $commandline = "rm -f ".$_.".sam";
-#    $status = system($commandline);
-#    $commandline = "java -jar ".$path_to_picard."picard.jar BuildBamIndex INPUT=".$_.".sorted.bam";                       
-#    $status = system($commandline);                                                            
-                           
-#    $commandline = "cp ".$_.".sorted.bam.bai ".$_."sorted.bai";
-#    $status = system($commandline);
-#}
-
-# Now identify Indels
-$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T RealignerTargetCreator
- -nt 8";
-foreach(@files){
-    $commandline = $commandline." -I ".$_."sorted.bam ";
-}
-$commandline = $commandline."-R ".$path_to_reference_genome.$reference_genome." -o indel.intervals";
-print $commandline,"\n";
-$status = system($commandline);
-
-# Now realign indels
-$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T IndelRealigner ";
-foreach(@files){
-    $commandline = $commandline." -I ".$_."sorted.bam ";
-}
-$commandline = $commandline."-R ".$path_to_reference_genome.$reference_genome." --targetIntervals indel.intervals --nWayOut.realigned.bam";
-$status = system($commandline);
-
-# Now recalibrate bases; first emit nonrecal variants
-$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T UnifiedGenotyper -R ".$path_to_reference_genome.$reference_genome;
-foreach(@files){
-    $commandline = $commandline." -I ".$_.".sorted.realigned.bam ";
-}
-$commandline = $commandline." -out_mode EMIT_VARIANTS_ONLY -o ./nonrecal_varonly.vcf";
-$status = system($commandline);
-
-# Now do baserecalibration
-$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T BaseRecalibrator -R ".$path_to_reference_genome.$reference_genome;
-foreach(@files){
-    $commandline = $commandline." -I ".$_.".sorted.realigned.bam ";
-}
-$commandline = $commandline." -knownSites ./nonrecal_varonly.vcf -o recal.table";
-$status = system($commandline);
-
-# Print new concatenated recalibrated bam
-$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T PrintReads -R ".$path_to_reference_genome.$reference_genome;
-foreach(@files){
-    $commandline = $commandline." -I ".$_.".sorted.realigned.bam ";
-}
-$commandline = $commandline."-BQSR recal.table -o all_recal_round1.bam";
-$status = system($commandline);
-
-# Now call all sites
-$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T UnifiedGenotyper -R ".$path_to_reference_genome.$reference_genome;
-$commandline = $commandline." -I all_recal_round1.bam ";
-$commandline = $commandline." -out_mode EMIT_ALL_CONFIDENT_SITES -o ./recal_allsites.vcf";
-$status = system($commandline);
-
-```
-
-The problem is that with the trial using the ABCT genome assembly, the pipeline is stalling at the "RealignerTargetCreator" stage. Not sure why. 
-
-# UPDATE
-
-OK, based on a brief comment in the GATK forum, it is now clear to me that GATK was not designed to work with reference genomes with many, many contigs.  So we now have a quick fix.  Based on the BLAST results of the abyss assembly to the mouse and rat genomes, we are making "supercontigs" using this perl script (Combines_abyss_output_into_supercontigs.pl). Note that GATK also cannot handle really really large supercontigs, so I have split up the contig that map to autosomes in mouse and rat into multiple contigs, each with ~1 million lines of data.
+Based on a brief comment in the GATK forum, it is now clear to me that GATK was not designed to work with reference genomes with many, many contigs.  So we now have a quick fix.  Based on the BLAST results of the abyss assembly to the mouse and rat genomes, we are making "supercontigs" using this perl script (Combines_abyss_output_into_supercontigs.pl). Note that GATK also cannot handle really really large supercontigs, so I have split up the contig that map to autosomes in mouse and rat into multiple contigs, each with ~1 million lines of data:
 
 ```perl
 #!/usr/bin/env perl
@@ -460,7 +339,220 @@ for ($y = 0 ; $y < 6 ; $y++ ) {
 
 ```
 
-This will then be used as the reference genome for mapping.  And we have bed files that can easily (hopefully) be used to remove contigs that have heterozygous sites in males using scripts above.  Woo hoo!!!
+Then I indexed the supercontigs from abyss (Step_2_index_genome.pl):
+
+```perl
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+# This script will index a genome fasta file using the 
+# new bwa HTSlib commands  
+
+my $path_to_reference_genome="/home/ben/2015_rat_RADtags/reference_genomez_from_abyss/";
+my $reference_genome="MVZ180318-8_concat.fa";
+my $path_to_picard = "/usr/local/picard-tools-1.131/";
+my $status;
+my $commandline;
+
+# index the reference genome
+$commandline = "bwa index ".$path_to_reference_genome.$reference_genome;
+$status = system($commandline);
+
+# make a fai index file for GATK
+$commandline = "samtools faidx ".$path_to_reference_genome.$reference_genome;
+$status = system($commandline);
+
+# make a dict file for this genome
+$commandline = "java -jar ".$path_to_picard."picard.jar CreateSequenceDictionary REFERENCE=".$path_to_reference_genome.$reference_genome." OUTPUT=".$path_to_reference_genome.$reference_genome.".dict";
+print $commandline,"\n";
+$status = system($commandline);
+
+# fix name of dict file
+my $y = substr($reference_genome, 0, rindex($reference_genome, '.'));
+$commandline="mv ".$path_to_reference_genome.$reference_genome.".dict ".$path_to_reference_genome.$y.".dict";
+$status = system($commandline);
+````
+And then I mapped the reads like this (Step_3_align_RADtags.pl):
+
+``` perl
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+# This script will index a genome fasta file using the 
+# new bwa HTSlib commands  
+
+my $path_to_reference_genome="/home/ben/2015_rat_RADtags/reference_genomez_from_abyss/";
+my $reference_genome="JAE4405-8_concat.fa";
+my $path_to_GATK="/usr/local/gatk/";
+my $path_to_picard = "/usr/local/picard-tools-1.131/";
+my $path_to_bwa="/usr/local/bin/";
+my $path_to_samtools="/usr/local/bin/";
+my $commandline;
+my $status;
+
+my @files = glob("JAE*fastq.gz KCR*fastq.gz");
+
+
+
+foreach(@files){
+    # align the data for each individual
+    $commandline = "bwa mem -M -t 4 ".$path_to_reference_genome.$reference_genome." -R \'\@RG\\tID:".$_."\\tSM:".$_."\\tLB:library1\\tPL:illumina\' ".$_." | gzip -3 > ".$_.".sam";
+    print $commandline,"\n";
+    $status = system($commandline);
+
+    # convert the sam file to a sorted bam file with picard
+    $commandline = "java -jar ".$path_to_picard."picard.jar SortSam INPUT=".$_.".sam OUTPUT=".$_.".sorted.bam SORT_ORDER=coordinate";
+    print $commandline,"\n";
+    $status = system($commandline);
+
+    # delete the sam file
+    $commandline = "rm -f ".$_.".sam";
+    print $commandline,"\n";
+    $status = system($commandline);
+
+     # build an index
+    $commandline = "java -jar ".$path_to_picard."picard.jar BuildBamIndex INPUT=".$_.".sorted.bam";    
+    print $commandline,"\n";
+    $status = system($commandline);                                                            
+}
+
+
+
+# Now identify Indels
+$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T RealignerTargetCreator ";
+foreach(@files){
+    $commandline = $commandline." -I ".$_.".sorted.bam ";
+}
+$commandline = $commandline."-R ".$path_to_reference_genome.$reference_genome." -o ".$reference_genome."_indel.intervals";
+print $commandline,"\n";
+$status = system($commandline);
+
+# Now realign indels
+$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T IndelRealigner ";
+foreach(@files){
+    $commandline = $commandline." -I ".$_.".sorted.bam ";
+}
+$commandline = $commandline."-R ".$path_to_reference_genome.$reference_genome." --targetIntervals ".$reference_genome."_indel.intervals --nWayOut .realigned.bam";
+print $commandline,"\n";
+$status = system($commandline);
+
+
+# Now recalibrate bases; first emit nonrecal variants
+$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T UnifiedGenotyper -R ".$path_to_reference_genome.$reference_genome;
+foreach(@files){
+    $commandline = $commandline." -I ".$_.".sorted.realigned.bam ";
+}
+$commandline = $commandline." -out_mode EMIT_VARIANTS_ONLY -o ".$reference_genome."_nonrecal_varonly.vcf";
+print $commandline,"\n";
+$status = system($commandline);
+
+# Now do baserecalibration
+$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T BaseRecalibrator -R ".$path_to_reference_genome.$reference_genome;
+foreach(@files){
+    $commandline = $commandline." -I ".$_.".sorted.realigned.bam ";
+}
+$commandline = $commandline." -knownSites ".$reference_genome."_nonrecal_varonly.vcf -o ".$reference_genome."_recal.table";
+print $commandline,"\n";
+$status = system($commandline);
+
+# Print new concatenated recalibrated bam
+$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T PrintReads -R ".$path_to_reference_genome.$reference_genome;
+foreach(@files){
+    $commandline = $commandline." -I ".$_.".sorted.realigned.bam ";
+}
+$commandline = $commandline."-BQSR ".$reference_genome."_recal.table -o ".$reference_genome."_all_recal_round1.bam";
+print $commandline,"\n";  
+$status = system($commandline);
+
+# Now call all sites
+$commandline = "java -Xmx3G -jar ".$path_to_GATK."GenomeAnalysisTK.jar -T UnifiedGenotyper -R ".$path_to_reference_genome.$reference_genome;
+$commandline = $commandline." -I ".$reference_genome."_all_recal_round1.bam ";
+$commandline = $commandline." -out_mode EMIT_ALL_CONFIDENT_SITES -o ".$reference_genome."_recal_allsites.vcf";
+print $commandline,"\n"; 
+$status = system($commandline);
+```
+
+Then I wrote a script to identify heterozygous sites in males.  These and the contigs from which they originate will be deleted from the analysis (FInds_heterozygous_sites_in_supercontigs.pl):
+
+```perl
+
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use List::MoreUtils qw/ uniq /;
+
+
+#  This program reads in a tab delimited genotype file generated
+#  by vcftools and identifies sites that are heterozygous in males
+#  and that are also on the X chromosome.  These sites will then be
+#  used to identify and exclude entire contigs that are not actually
+#  on the X.
+
+# to execute type Finds_hetero.pl inputfile.tab 11100 output.tab
+# where 11100 refers to whether or not each individual in the ingroup 
+# in the vcf file is (1) or is not (0) female 
+
+my $inputfile = $ARGV[0];
+my $input2 = $ARGV[1];
+my $outputfile = $ARGV[2];
+my $y;
+my @temp;
+
+
+unless (open DATAINPUT, $inputfile) {
+	print "Can not find the input file.\n";
+	exit;
+}
+
+unless (open(OUTFILE, ">$outputfile"))  {
+	print "I can\'t write to $outputfile\n";
+	exit;
+}
+print "Creating output file: $outputfile\n";
+
+
+my @sexes = split("",$ARGV[1]);
+
+my $number_of_individuals_genotyped=($#sexes + 1);
+
+print "The number of individuals to assess is ",$number_of_individuals_genotyped,"\n";
+
+my $number_of_female_individuals_genotyped;
+for ($y = 0 ; $y <= $#sexes ; $y++ ) {
+	if($sexes[$y] == 1){
+		$number_of_female_individuals_genotyped +=1;
+	}	
+}	
+
+print "This includes ",$number_of_female_individuals_genotyped," female(s)\n";
+
+my $switch=0;
+while ( my $line = <DATAINPUT>) {
+	chomp($line);
+	@temp=split(/[\/'\t']+/,$line);
+	if($temp[0] ne '#CHROM'){
+		if(($temp[0] eq "chrX_m_chrX_r")||($temp[0] eq "chrX_m_chrA_r")||($temp[0] eq "chrA_m_chrX_r")||($temp[0] eq "chrX_m_chrU_r")){
+			for ($y = 0 ; $y <= $#sexes; $y++ ) {
+				# load both alleles if the individual is a male
+				if($sexes[$y] eq "0"){
+					# load the first allele
+					if($temp[(2*$y)+3] ne $temp[(2*$y)+4]){
+						$switch = 1;
+					}	
+				}
+			} 
+			if($switch == 1){
+				print OUTFILE $temp[0],"\t",$temp[1],"\n";
+			}
+			$switch=0;
+		}
+	}
+}	
+close DATAINPUT;
+close OUTFILE;
+```
 
 
 Caroline will insert the R code that she used to parse the BLAST output here.
