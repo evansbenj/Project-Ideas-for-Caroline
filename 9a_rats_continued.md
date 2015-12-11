@@ -287,10 +287,9 @@ The problem is that with the trial using the ABCT genome assembly, the pipeline 
 
 # UPDATE
 
-OK, based on a brief comment in the GATK forum, it is now clear to me that GATK was not designed to work with reference genomes with many, many contigs.  So we now have a quick fix.  Based on the BLAST results of the abyss assembly to the mouse and rat genomes, we are making 5 "supercontigs" using this perl script:
+OK, based on a brief comment in the GATK forum, it is now clear to me that GATK was not designed to work with reference genomes with many, many contigs.  So we now have a quick fix.  Based on the BLAST results of the abyss assembly to the mouse and rat genomes, we are making "supercontigs" using this perl script (Combines_abyss_output_into_supercontigs.pl). Note that GATK also cannot handle really really large supercontigs, so I have split up the contig that map to autosomes in mouse and rat into multiple contigs, each with ~1 million lines of data.
 
 ```perl
-
 #!/usr/bin/env perl
 use strict;
 use warnings;
@@ -313,6 +312,9 @@ use List::MoreUtils qw/ uniq /;
 # Combines_abyss_output_into_supercontigs.pl ./abyss_contig_blast_lists/JAE/Xmouse_AND_Xrat_JAE.txt ./abyss_contig_blast_lists/JAE/Xmouse_AND_Arat_JAE.txt ./abyss_contig_blast_lists/JAE/Amouse_AND_Xrat_JAE.txt ./abyss_contig_blast_lists/JAE/Xmouse_AND_Urat_JAE.txt ./abyss_contig_blast_lists/JAE/Amouse_AND_Arat_JAE.txt ./abyss_contig_blast_lists/JAE/Amouse_AND_Urat_JAE.txt ../reference_genomez_from_abyss/JAE4405-8.fa ./abyss_contig_blast_lists/JAE/Xmouse_AND_Xrat_ABTC.bed ./abyss_contig_blast_lists/JAE/Xmouse_AND_Arat_ABTC.bed ./abyss_contig_blast_lists/JAE/Amouse_AND_Xrat_ABTC.bed ./abyss_contig_blast_lists/JAE/Xmouse_AND_Urat_ABTC.bed ./abyss_contig_blast_lists/JAE/Amouse_AND_Arat_ABTC.bed ./abyss_contig_blast_lists/JAE/Amouse_AND_Urat_ABTC.bed ../reference_genomez_from_abyss/JAE4405-8_concat.fa
 
 my $minimum_length_of_contig_to_include = 500;
+my $max_number_of_lines_in_autosomal_supercontigs=2000000;
+my $achrom_lines=0;
+my $a_chr_number=0;
 
 my @input;
 $input[0] = $ARGV[0]; #This is list 1 defined above >chrX_m_chrX_r
@@ -381,21 +383,27 @@ for ($y = 0 ; $y < 6 ; $y++ ) {
 	
 	if($y == 0){
 		print OUTFILE6 ">chrX_m_chrX_r\n";
+		$achrom_lines=0;
 	}
 	elsif($y == 1){
 		print OUTFILE6 ">chrX_m_chrA_r\n";
+		$achrom_lines=0;
 	}
 	elsif($y == 2){
 		print OUTFILE6 ">chrA_m_chrX_r\n";
+		$achrom_lines=0;
 	}
 	elsif($y == 3){
 		print OUTFILE6 ">chrX_m_chrU_r\n";
+		$achrom_lines=0;
 	}
 	elsif($y == 4){
-		print OUTFILE6 ">chrA_m_chrA_r\n";
+		print OUTFILE6 ">chrA_m_chrA_r_".$a_chr_number."\n";
+		$achrom_lines=0;
 	}
 	elsif($y == 5){
 		print OUTFILE6 ">chrA_m_chrU_r\n";
+		$achrom_lines=0;
 	}
 
 	# open the abyss assembly file
@@ -412,6 +420,7 @@ for ($y = 0 ; $y < 6 ; $y++ ) {
 			until(length($temp[0]) < 80){
 				print OUTFILE6 substr($temp[0], 0, 80),"\n";
 				$temp[0] = substr($temp[0],80);
+				$achrom_lines+=1;
 			}
 			print OUTFILE6 $temp[0];
 			for($x = 0 ; $x < (80-length($temp[0])) ; $x++ ) {
@@ -431,6 +440,12 @@ for ($y = 0 ; $y < 6 ; $y++ ) {
 				$switch = 1;
 				$seq_length=$temp[2];
 				print OUTFILE $temp[1],"\t",$last_position+1,"\t";
+				if(($achrom_lines > $max_number_of_lines_in_autosomal_supercontigs)&&($y == 4)){
+					$a_chr_number+=1;
+					$achrom_lines=0;
+					$last_position=0;
+					print OUTFILE6 ">chrA_m_chrA_r_".$a_chr_number."\n"; 
+				}
 			}
 			else{
 				$switch = 0;
