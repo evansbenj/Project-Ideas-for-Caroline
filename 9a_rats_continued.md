@@ -48,7 +48,7 @@ Apodemus semotus	MVZ180314	Male
 Apodemus sylvaticus	SMG3824	Female
 Apodemus sylvaticus	SMG3893	Male
 Apodemus sylvaticus	SMG3894	Female
-Apodemus sylvaticus	SMG902	Female
+Apodemus sylvaticus	SMG3902	Female
 Apodemus sylvaticus	SMG3909	Female
 Apodemus sylvaticus	SMG3910	Female
 ```
