@@ -474,6 +474,14 @@ print $commandline,"\n";
 $status = system($commandline);
 ```
 
+After this, we are ready to convert the vcf file into a tab file using vcftools.  Here are the commands for that:
+
+```bash
+~/tabix-0.2.6/bgzip JAE4405-8_concat.fa_recal_allsites.vcf
+~/tabix-0.2.6/tabix -p vcf JAE4405-8_concat.fa_recal_allsites.vcf.gz
+zcat JAE4405-8_concat.fa_recal_allsites.vcf.gz | /usr/local/vcftools/src/perl/vcf-to-tab > JAE4405-8_concat.fa_recal_allsites.vcf.gz.tab
+```
+
 Then I wrote a script to identify heterozygous sites in males.  These and the contigs from which they originate will be deleted from the analysis (FInds_heterozygous_sites_in_supercontigs.pl):
 
 ```perl
