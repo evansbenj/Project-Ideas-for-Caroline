@@ -584,6 +584,7 @@ head(chrA_m_chrX_r)
 tail(chrA_m_chrX_r)
 chrX_m_chrA_r <-subset(heteroz,heteroz[,1] == "chrX_m_chrA_r")
 chrX_m_chrX_r <-subset(heteroz,heteroz[,1] == "chrX_m_chrX_r")
+
 # create an empty list that will serve as a container to receive the incoming files
 list.data<-list()
 
@@ -673,8 +674,7 @@ for (i in 1:length(chrX_m_chrX_r[,1]))
 }
 
 ## Adding everything
-ABTC_contigs_start_stop_heteroz_sites <- rbind(unique(heteroz), #need to use 
-'unique'command of R because we had various heterozygous sites for one contig
+ABTC_contigs_start_stop_heteroz_sites <- rbind(unique(heteroz), #need to use 'unique'command of R because we had various heterozygous sites for one contig
                                                       unique(heteroz_Am_Xr),
                                                              unique(heteroz_Xm_Xr))
 
