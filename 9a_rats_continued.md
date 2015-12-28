@@ -564,8 +564,121 @@ close OUTFILE;
 
 
 Caroline will insert the R code that she used to parse the BLAST output here.
+To obtain a file with the "chromosome situation" in the fist column, the start and the end position of the contig with heterozygous sites (here is a script example used for ABTC):
 
 ``` R
-q()
+## import_multiple_files_to_R
+# set working directory
+setwd("/Users/Ben/rat_genomes/ABTC")
+#path = "C:/Users/Ben/rat_genomes/ABTC/"
+
+###Import the bed files and the txt files containing the list of sites
+filelist_bed = list.files(pattern = ".*.bed")
+
+#read the heterozygous file
+heteroz <- read.table("mit_X_het_sites.out",sep="\t")
+head(heteroz)
+levels(heteroz[,1])
+chrA_m_chrX_r <- subset(heteroz,heteroz[,1] == "chrA_m_chrX_r")
+head(chrA_m_chrX_r)
+tail(chrA_m_chrX_r)
+chrX_m_chrA_r <-subset(heteroz,heteroz[,1] == "chrX_m_chrA_r")
+chrX_m_chrX_r <-subset(heteroz,heteroz[,1] == "chrX_m_chrX_r")
+# create an empty list that will serve as a container to receive the incoming files
+list.data<-list()
+
+# create a loop to read in your data
+for (i in 1:length(filelist_bed))
+{
+  list.data[[i]]<-read.table(filelist_bed[i],sep="\t")
+}
+
+# add the names of your data to the list
+names(list.data)<-filelist_bed
+
+## Declaration of the dataframes
+
+chr_cases_heteroz <- data.frame()
+chr_cases_heteroz <- "NA" # if you don't do that we have error messages
+start_position_heteroz <-data.frame()
+start_position_heteroz <- "NA"
+stop_position_heteroz <-data.frame()
+stop_position_heteroz <- "NA"
+
+## Select heteroz sites
+
+# For chrX_m_chrA_r
+
+for (i in 1:length(chrX_m_chrA_r[,1]))
+{
+  for (j in 1:length(list.data$Xmouse_AND_Arat_ABTC.bed[,2]))
+  {
+    if(
+      (as.numeric(chrX_m_chrA_r[i,2]) > as.numeric(list.data$Xmouse_AND_Arat_ABTC.bed[j,2]) &
+       as.numeric(chrX_m_chrA_r[i,2]) < as.numeric(list.data$Xmouse_AND_Arat_ABTC.bed[j,3]) 
+       )
+      )
+    { 
+      chr_cases_heteroz[i] <- "chrX_m_chrA_r"
+      start_position_heteroz[i] <- as.numeric(list.data$Xmouse_AND_Arat_ABTC.bed[j,2])-1 #we need to substract 1 to have the 1st starting position=0
+      stop_position_heteroz[i] <- as.numeric(list.data$Xmouse_AND_Arat_ABTC.bed[j,3])-1
+    }
+  }
+          heteroz <- data.frame(chr_cases_heteroz,
+                                start_position_heteroz,
+                                stop_position_heteroz)
+}
+
+# For chrA_m_chrX_r
+
+for (i in 1:length(chrA_m_chrX_r[,1]))
+{
+  for (j in 1:length(list.data$Amouse_AND_Xrat_ABTC.bed[,2]))
+  {
+    if(
+      (as.numeric(chrA_m_chrX_r[i,2]) > as.numeric(list.data$Amouse_AND_Xrat_ABTC.bed[j,2]) &
+       as.numeric(chrA_m_chrX_r[i,2]) < as.numeric(list.data$Amouse_AND_Xrat_ABTC.bed[j,3]) 
+      )
+    )
+    { 
+      chr_cases_heteroz[i] <- "chrA_m_chrX_r"
+      start_position_heteroz[i] <- as.numeric(list.data$Amouse_AND_Xrat_ABTC.bed[j,2])-1
+      stop_position_heteroz[i] <- as.numeric(list.data$Amouse_AND_Xrat_ABTC.bed[j,3])-1
+    }
+  }
+  heteroz_Am_Xr <- data.frame(chr_cases_heteroz,
+                        start_position_heteroz,
+                        stop_position_heteroz)
+}
+# For chrX_m_chrX_r
+
+for (i in 1:length(chrX_m_chrX_r[,1]))
+{
+  for (j in 1:length(list.data$Xmouse_AND_Xrat_ABTC.bed[,2]))
+  {
+    if(
+      (as.numeric(chrX_m_chrX_r[i,2]) > as.numeric(list.data$Xmouse_AND_Xrat_ABTC.bed[j,2]) &
+       as.numeric(chrX_m_chrX_r[i,2]) < as.numeric(list.data$Xmouse_AND_Xrat_ABTC.bed[j,3]) 
+      )
+    )
+    { 
+      chr_cases_heteroz[i] <- "chrX_m_chrX_r"
+      start_position_heteroz[i] <- as.numeric(list.data$Xmouse_AND_Xrat_ABTC.bed[j,2])-1
+      stop_position_heteroz[i] <- as.numeric(list.data$Xmouse_AND_Xrat_ABTC.bed[j,3])-1
+    }
+  }
+  heteroz_Xm_Xr <- data.frame(chr_cases_heteroz,
+                        start_position_heteroz,
+                        stop_position_heteroz)
+}
+
+## Adding everything
+ABTC_contigs_start_stop_heteroz_sites <- rbind(unique(heteroz),
+                                                      unique(heteroz_Am_Xr),
+                                                             unique(heteroz_Xm_Xr))
+
+## Create a document .txt
+write.table(ABTC_contigs_start_stop_heteroz_sites,file="chromosomes_ABTC_heteroz.txt",quote=FALSE,col.names=F,row.names=F)
+
 
 ```
