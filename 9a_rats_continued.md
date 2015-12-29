@@ -689,11 +689,25 @@ OK now I will use vcftools to remove these sections of the RADseq data like this
 
 ```
 vcftools --gzvcf MVZ180318-8_concat.fasem_recal_allsites.vcf.gz --exclude-bed ../bedfiles_male_het_sites_to_delete/chromosomes_MVZ_heteroz.bed --out MVZ180318-8_concat.fasem_recal_allsites_minus_malehets.vcf --recode
-
 vcftools --gzvcf MVZ180318-8_concat.fa_recal_allsites.vcf.gz --exclude-bed ../bedfiles_male_het_sites_to_delete/chromosomes_MVZ_heteroz.bed --out MVZ180318-8_concat.fa_recal_allsites_minus_malehets.vcf --recode
-
 vcftools --gzvcf ABTC26654-8_concat.fa_recal_allsites.vcf.gz --exclude-bed ../bedfiles_male_het_sites_to_delete/chromosomes_ABTC_heteroz.bed --out ABTC26654-8_concat.fa_recal_allsites_minus_malehets.vcf --recode
-
 vcftools --gzvcf JAE4405-8_concat.fa_recal_allsites.vcf.gz --exclude-bed ../bedfiles_male_het_sites_to_delete/chromosomes_JAE_heteroz.bed --out JAE4405-8_concat.fa_recal_allsites_minus_malehets.vcf --recode
 
+```
+
+And now I will convert them to tab delimited files:
+
+```
+~/tabix-0.2.6/bgzip ABTC26654-8_concat.fa_recal_allsites_minus_malehets.vcf.recode.vcf
+~/tabix-0.2.6/bgzip JAE4405-8_concat.fa_recal_allsites_minus_malehets.vcf.recode.vcf
+~/tabix-0.2.6/bgzip MVZ180318-8_concat.fa_recal_allsites_minus_malehets.vcf.recode.vcf
+~/tabix-0.2.6/bgzip MVZ180318-8_concat.fasem_recal_allsites_minus_malehets.vcf.recode.vcf
+~/tabix-0.2.6/tabix -p vcf ABTC26654-8_concat.fa_recal_allsites_minus_malehets.vcf.recode.vcf.gz
+~/tabix-0.2.6/tabix -p vcf JAE4405-8_concat.fa_recal_allsites_minus_malehets.vcf.recode.vcf.gz
+~/tabix-0.2.6/tabix -p vcf MVZ180318-8_concat.fa_recal_allsites_minus_malehets.vcf.recode.vcf.gz
+~/tabix-0.2.6/tabix -p vcf MVZ180318-8_concat.fasem_recal_allsites_minus_malehets.vcf.recode.vcf.gz
+zcat ABTC26654-8_concat.fa_recal_allsites_minus_malehets.vcf.recode.vcf.gz | /usr/local/vcftools/src/perl/vcf-to-tab > final_mitch.tab
+zcat JAE4405-8_concat.fa_recal_allsites_minus_malehets.vcf.recode.vcf.gz | /usr/local/vcftools/src/perl/vcf-to-tab > final_dominator.tab
+zcat MVZ180318-8_concat.fa_recal_allsites_minus_malehets.vcf.recode.vcf.gz | /usr/local/vcftools/src/perl/vcf-to-tab > final_sylvaticus.tab
+zcat MVZ180318-8_concat.fasem_recal_allsites_minus_malehets.vcf.recode.vcf.gz | /usr/local/vcftools/src/perl/vcf-to-tab > final_semotus.tab
 ```
