@@ -563,7 +563,8 @@ close OUTFILE;
 ```
 
 
-Caroline will insert the R code that she used to parse the BLAST output here.
+I sent a list of heterozygous sites for each of the 4 species to Caroline.  Caroline then wrote an R script that generates bed files with the coordinates of contigs that had heterozygous sites in the RADseq data in one or more males on the X chromosome.  These contigs are either not on the X or are pseudoautosomal and we need to eliminate them from our analysis. For the MVZ genome, we have a list of male X-heterozygous sites for semotus and sylvaticus that we will combine. We can then use vcf tools to delete these sections from our supercontigs.
+
 To obtain a file with the "chromosome situation" in the fist column, the start and the end position of the contig with heterozygous sites (here is a script example used for ABTC):
 
 ``` R
