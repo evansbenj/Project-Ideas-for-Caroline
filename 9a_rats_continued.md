@@ -687,5 +687,9 @@ write.table(ABTC_contigs_start_stop_heteroz_sites,file="chromosomes_ABTC_heteroz
 
 OK now I will use vcftools to remove these sections of the RADseq data like this:
 
-`vcftools --gzvcf MVZ180318-8_concat.fasem_recal_allsites.vcf.gz --exclude-bed ../bedfiles_male_het_sites_to_delete/chromosomes_MVZ_heteroz.bed --out MVZ180318-8_concat.fasem_recal_allsites_minus_malehets.vcf --recode
-`
+``` bash
+vcftools --gzvcf MVZ180318-8_concat.fasem_recal_allsites.vcf.gz --exclude-bed ../bedfiles_male_het_sites_to_delete/chromosomes_MVZ_heteroz.bed --out MVZ180318-8_concat.fasem_recal_allsites_minus_malehets.vcf --recode
+
+vcftools --gzvcf ABTC26654-8_concat.fa_recal_allsites.vcf.gz --exclude-bed ../bedfiles_male_het_sites_to_delete/chromosomes_ABTC_heteroz.bed --out ABTC26654-8_concat.fa_recal_allsites_minus_malehets.vcf --recode
+
+```
