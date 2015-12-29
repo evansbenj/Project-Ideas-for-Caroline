@@ -22,6 +22,14 @@ And then we set up a batch blast to each one line this:
 
 ` /Users/evanslab/ncbi-blast-2.2.31+/bin/blastn -evalue 1e-60 -query /Users/Ben/rat_genomes/ABTC26654_abyss_kmer_65/ABTC26654-8.fa -db /Users/Ben/rat_genomes/UCSC_mouse_genome/mouse_genome_masked_blastable -out /Users/Ben/rat_genomes/ABTC26654_abyss_kmer_65/ABTC26654-8_mouse -outfmt 6 -max_target_seqs 1`
 
+# Testis to body mass ratios
+
+According to Breed and Taylor (2000) J. Mammal 81(3):758-768, here are the testis to body mass ratios:
+Apodemus semotus	4.82
+Notomys	mitchelli	0.017
+Apodemus sylvaticus	3.42
+Paruromys dominator	0.46
+
 # Demultiplexing and trimming the RADseq data
 
 Here is the data for the RADseq samples:
