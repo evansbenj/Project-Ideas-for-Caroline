@@ -684,3 +684,5 @@ write.table(ABTC_contigs_start_stop_heteroz_sites,file="chromosomes_ABTC_heteroz
 
 
 ```
+
+OK now I will use vcftools to remove these sections of the RADseq data.
