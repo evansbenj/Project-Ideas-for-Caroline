@@ -675,21 +675,17 @@ for (i in 1:length(chrX_m_chrX_r[,1]))
 }
 
 ## Adding everything
-ABTC_contigs_start_stop_heteroz_sites <- rbind(unique(heteroz), #need to use 'unique'command of R because we had various heterozygous sites for one contig
-                                                      unique(heteroz_Am_Xr),
-                                                             unique(heteroz_Xm_Xr))
+ABTC_contigs_start_stop_heteroz_sites <- rbind(unique(heteroz_Xm_Xr), #need to use 'unique'command of R because we had various heterozygous sites for one contig
+                                                      unique(heteroz),
+                                                             unique(heteroz_Am_Xr))
 
 ## Create a document .txt
-write.table(ABTC_contigs_start_stop_heteroz_sites,file="chromosomes_ABTC_heteroz.txt",quote=FALSE,col.names=F,row.names=F)
+write.table(ABTC_contigs_start_stop_heteroz_sites,file="chromosomes_ABTC_heteroz.txt",quote=FALSE,col.names=F,row.names=F,sep="\t")
 
 
 ```
 
 OK now I will use vcftools to remove these sections of the RADseq data like this:
 
-``` bash
-vcftools --gzvcf MVZ180318-8_concat.fasem_recal_allsites.vcf.gz --exclude-bed ../bedfiles_male_het_sites_to_delete/chromosomes_MVZ_heteroz.bed --out MVZ180318-8_concat.fasem_recal_allsites_minus_malehets.vcf --recode
-
-vcftools --gzvcf ABTC26654-8_concat.fa_recal_allsites.vcf.gz --exclude-bed ../bedfiles_male_het_sites_to_delete/chromosomes_ABTC_heteroz.bed --out ABTC26654-8_concat.fa_recal_allsites_minus_malehets.vcf --recode
-
-```
+`vcftools --gzvcf MVZ180318-8_concat.fasem_recal_allsites.vcf.gz --exclude-bed ../bedfiles_male_het_sites_to_delete/chromosomes_MVZ_heteroz.bed --out MVZ180318-8_concat.fasem_recal_allsites_minus_malehets.vcf --recode
+`
