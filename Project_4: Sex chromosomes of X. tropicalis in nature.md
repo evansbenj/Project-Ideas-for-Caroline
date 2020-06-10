@@ -22,7 +22,7 @@ With Caroline and BenF, we did fieldwork in Ghana and brought back frogs which t
 # RNAseq
 RNAseq data for trop tads is here:
 ```
-
+/home/evanslab/trop_tadpole_RNAseq/data/trimmed_RNAseq_data
 ```
 Transcriptome assembly is here:
 ```
