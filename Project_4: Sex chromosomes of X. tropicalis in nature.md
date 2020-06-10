@@ -18,3 +18,13 @@ With Caroline and BenF, we did fieldwork in Ghana and brought back frogs which t
 * If Y is derived from Z and females have degeneration of the W, then males would be expected to have higher expression. 
 * If reference bias is an issue - level of female expression should be lower than the autosomal. We can compare the median expression of SL and non-SL transcripts in females. Maybe get the ratio of these expression levels by individual.
 * Map RNAseq data to v10. Count SNP/bps of non-male-specific male-biased transcripts in SL region and compare to SNPs/bp of non-male biased transcripts in SL region.
+
+# RNAseq
+RNAseq data for trop tads is here:
+```
+
+```
+Transcriptome assembly is here:
+```
+/home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome/tropicalis_transcriptome_trinityOut.Trinity.fasta
+```
