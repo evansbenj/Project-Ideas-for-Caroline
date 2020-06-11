@@ -28,3 +28,20 @@ Transcriptome assembly is here:
 ```
 /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome/tropicalis_transcriptome_trinityOut.Trinity.fasta
 ```
+
+# Genomic data
+Trying to figure out depth of XT reads in v10.  Only have shitty 454 seqs which I mapped here:
+```
+/4/ben/XT_v10
+```
+Coverage is ridiculously low but I can check depth on the covered bases and it is about the same in and out of the SL region:
+
+```
+[ben@info115 XT_v10]$ samtools depth  SRR000914_to_v10_sorted.bam  |  awk '{sum+=$3} END { print "Average = ",sum/NR}'
+Average =  1.17029
+[ben@info115 XT_v10]$ samtools depth -r Chr7:1-12000000 SRR000914_to_v10_sorted.bam  |  wc -l
+596535
+[ben@info115 XT_v10]$ samtools depth  SRR000914_to_v10_sorted.bam  | wc -l
+100776206
+[ben@info115 XT_v10]$ pwd
+```
