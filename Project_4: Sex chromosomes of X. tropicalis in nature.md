@@ -28,6 +28,23 @@ Transcriptome assembly is here:
 ```
 /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome/tropicalis_transcriptome_trinityOut.Trinity.fasta
 ```
+I'm mapping the RNAseq data to the transcriptomes here:
+```
+/home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome
+```
+Using these commands:
+```
+bwa mem tropicalis_transcriptome_trinityOut.Trinity.fasta '<zcat /home/evanslab/trop_tadpole_RNAseq/data/trimmed_RNAseq_data/XT6_R1_paired.fastq.gz' '<zcat /home/evanslab/trop_tadpole_RNAseq/data/trimmed_RNAseq_data/XT6_R2_paired.fastq.gz' > XT6.sam
+```
+```
+samtools view -bt tropicalis_transcriptome_trinityOut.Trinity.fasta -o XT6.bam XT6.sam
+```
+```
+rm -f XT6.sam
+```
+```
+samtools sort XT6.bam -o XT6_sorted.bam
+```
 
 # Genomic data
 Trying to figure out depth of XT reads in v10.  Only have shitty 454 seqs which I mapped here:
