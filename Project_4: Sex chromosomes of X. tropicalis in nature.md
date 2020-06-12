@@ -113,3 +113,7 @@ I'm working with a bam file that Xue made using gmap, which is splice aware, her
 ```
 /home/evanslab/trop_tadpole_RNAseq/data/mapping_tropDNTrans_tropGenomeV10_gmap
 ```
+After using picard CreatDictionary and samtools faidx on the ref, I made a tab delimited file like this:
+```
+java -jar /home/evanslab/trop_tadpole_RNAseq/data/jvarkit/dist/sam2tsv.jar -A  -r /home/evanslab/trop_tadpole_RNAseq/data/XT_v10/XENTR_10.0_genome.fasta.gz /home/evanslab/trop_tadpole_RNAseq/data/mapping_tropDNTrans_tropGenomeV10_gmap/tropDNTtrans_tropGenomeV10_gmap.bam -o tropDNTtrans_tropGenomeV10_gmap.tsv
+```
