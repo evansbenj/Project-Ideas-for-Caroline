@@ -45,6 +45,12 @@ rm -f XT6.sam
 ```
 samtools sort XT6.bam -o XT6_sorted.bam
 ```
+```
+samtools index XT6_sorted.bam
+```
+```
+samtools mpileup -d8000 -ugf tropicalis_transcriptome_trinityOut.Trinity.fasta -t DP,AD XT6_sorted.bam | bcftools call -V indels --format-fields GQ -m -O z | bcftools filter -e 'FORMAT/GT = "." || FORMAT/DP < 10 || FORMAT/GQ < 20 || FORMAT/GQ = "."' -O z -o XT6_sorted.bam.vcf.gz
+```
 
 # Genomic data
 Trying to figure out depth of XT reads in v10.  Only have shitty 454 seqs which I mapped here:
