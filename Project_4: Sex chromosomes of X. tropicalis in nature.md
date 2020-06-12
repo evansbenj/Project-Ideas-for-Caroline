@@ -102,3 +102,14 @@ Average =  1.17029
 100776206
 [ben@info115 XT_v10]$ pwd
 ```
+
+Another idea is to map assembled transcripts to v10 and quantify how many divergent sites are in sex-linked, male-biased and other transcripts. If the Y came from the Z, we'd expect more divergent sites in SL than nonSL transcripts if the ref is a WW individual.  And this may especially be the case for SL male biased transcipts.
+
+I installed a tool to tabulate divergence from ref using a bam file here (http://lindenb.github.io/jvarkit/Sam2Tsv.html):
+```
+/home/evanslab/trop_tadpole_RNAseq/data/jvarkit/dist
+```
+I'm working with a bam file that Xue made using gmap, which is splice aware, here:
+```
+/home/evanslab/trop_tadpole_RNAseq/data/mapping_tropDNTrans_tropGenomeV10_gmap
+```
