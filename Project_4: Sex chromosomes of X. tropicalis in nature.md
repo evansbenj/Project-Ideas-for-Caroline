@@ -57,6 +57,34 @@ tabix -p vcf XT6_sorted.bam.vcf.gz
 ```
 bcftools merge XT2_sorted.bam.vcf.gz XT3_sorted.bam.vcf.gz XT6_sorted.bam.vcf.gz XT9_sorted.bam.vcf.gz XT10_sorted.bam.vcf.gz XT11_sorted.bam.vcf.gz XT16_sorted.bam.vcf.gz XT17_sorted.bam.vcf.gz XT20_sorted.bam.vcf.gz XT1_sorted.bam.vcf.gz XT7_sorted.bam.vcf.gz -Oz XT8_sorted.bam.vcf.gz XT13_sorted.bam.vcf.gz XT19_sorted.bam.vcf.gz -o Merged.vcf.gz
 ```
+```
+vcftools --gzvcf Merged.vcf.gz --extract-FORMAT-info AD
+```
+After renaming, the output file is called Merged.vcf.gz_out.AD.FORMAT and it has exactly what I need - allele depth for all individuals that have genotypes for each transcript for each SNP.
+
+Then I went back to R to get the transcript IDs of significantly female biased and male biased transcripts:
+
+```
+borTad_laevisGenome_edgeR_tpm_SL_femalebiased <- borTad_laevisGenome_edgeR_tpm_combine_st46 %>% filter((FDR <= 0.05)& (logFC < -2)) %>% 
+  filter(chromosome == "chr8L") %>%
+  filter(start<=57000000) 
+borTad_laevisGenome_edgeR_tpm_SL_femalebiased$trans_id
+write.csv(borTad_laevisGenome_edgeR_tpm_SL_femalebiased$trans_id,
+          "borTad_laevisGenome_edgeR_tpm_SL_femalebiased$trans_id.csv", row.names = F)
+          
+# get the transcript_ids of female_biased trnascripts in the SL region
+borTad_laevisGenome_edgeR_tpm_SL_malebiased <- borTad_laevisGenome_edgeR_tpm_combine_st46 %>% filter((FDR <= 0.05)& (logFC > -2)) %>% 
+  filter(chromosome == "chr8L") %>%
+  filter(start<=57000000) 
+borTad_laevisGenome_edgeR_tpm_SL_malebiased$trans_id
+write.csv(borTad_laevisGenome_edgeR_tpm_SL_malebiased$trans_id,
+          "borTad_laevisGenome_edgeR_tpm_SL_malebiased$trans_id.csv", row.names = F)
+```          
+And used this list to grep the allele depth data of the individual transcripts from the files generated above with vcftools
+
+```
+grep -f SL_trans_IDs_sig_Sex_biased Merged.vcf.gz_out.AD.FORMAT > SL_allelic_depth_sig_sex_biased.AD.FORMAT
+```
 
 # Genomic data
 Trying to figure out depth of XT reads in v10.  Only have shitty 454 seqs which I mapped here:
