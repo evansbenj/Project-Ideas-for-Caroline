@@ -123,4 +123,16 @@ The output filee is huge, so I am going to filter it to focus only on chr7, and 
 ```
 java -jar /home/evanslab/trop_tadpole_RNAseq/data/jvarkit/dist/sam2tsv.jar -A -r /home/evanslab/trop_tadpole_RNAseq/data/XT_v10/XENTR_10.0_genome.fasta.gz /home/evanslab/trop_tadpole_RNAseq/data/mapping_tropDNTrans_tropGenomeV10_gmap/tropDNTtrans_tropGenomeV10_gmap.bam | perl -ane 'print if ($F[3] eq "Chr7")&&($F[4] ne ".")&&($F[4] ne "*")&&($F[8] eq "M")' > divergent_sites_A.txt
 ```
-
+I took out only Chr7 and then ran the script like this:
+```
+samtools sort tropDNTtrans_tropGenomeV10_gmap.bam -o tropDNTtrans_tropGenomeV10_gmap_sorted.bam
+```
+```
+samtools index tropDNTtrans_tropGenomeV10_gmap_sorted.bam
+```
+```
+samtools view -b tropDNTtrans_tropGenomeV10_gmap_sorted.bam Chr7 > tropDNTtrans_tropGenomeV10_gmap_sorted_Chr7only.bam
+```
+```
+java -jar /home/evanslab/trop_tadpole_RNAseq/data/jvarkit/dist/sam2tsv.jar -A -r /home/evanslab/trop_tadpole_RNAseq/data/XT_v10/XENTR_10.0_genome.fasta.gz /home/evanslab/trop_tadpole_RNAseq/data/mapping_tropDNTrans_tropGenomeV10_gmap/tropDNTtrans_tropGenomeV10_gmap_sorted_Chr7only.bam | perl -ane 'print if ($F[4] ne ".")&&($F[4] ne "*")&&($F[8] eq "M")' > divergent_sites_A.txt
+```
