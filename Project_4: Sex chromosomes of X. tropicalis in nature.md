@@ -85,6 +85,28 @@ And used this list to grep the allele depth data of the individual transcripts f
 ```
 grep -f SL_trans_IDs_sig_Sex_biased Merged.vcf.gz_out.AD.FORMAT > SL_allelic_depth_sig_sex_biased.AD.FORMAT
 ```
+# Now get transcript IDs of male-biased and female-biased trnascripts in SL region
+```R
+XT_data_whole_genome_tpm_SL_malebiased <- XT_data_whole_genome %>% 
+  filter((FDR <= 0.05)& (logFC > 2)) %>% 
+  filter(chromosome == "Chr7") %>%
+  filter(start<=12000000) 
+XT_data_whole_genome_tpm_SL_malebiased$trans_id
+write.csv(XT_data_whole_genome_tpm_SL_malebiased$trans_id,
+          "XT_data_whole_genome_tpm_SL_malebiased$trans_id.csv", row.names = F)
+
+XT_data_whole_genome_tpm_SL_femalebiased <- XT_data_whole_genome %>% 
+  filter((FDR <= 0.05)& (logFC < -2)) %>% 
+  filter(chromosome == "Chr7") %>%
+  filter(start<=12000000) 
+XT_data_whole_genome_tpm_SL_femalebiased$trans_id
+write.csv(XT_data_whole_genome_tpm_SL_femalebiased$trans_id,
+          "XT_data_whole_genome_tpm_SL_femalebiased$trans_id.csv", row.names = F)
+```
+And use this to grep the allele depth data of the individual transcripts from the file generated above with vcftools
+```bash
+grep -f SL_trans_IDs_sig_male_biased SL_allelic_depth_sig_sex_biased.AD.FORMAT > SL_allelic_depth_sig_male_biased.AD.FORMAT
+```
 
 # Genomic data
 Trying to figure out depth of XT reads in v10.  Only have shitty 454 seqs which I mapped here:
