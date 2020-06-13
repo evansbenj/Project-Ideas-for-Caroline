@@ -62,29 +62,7 @@ vcftools --gzvcf Merged.vcf.gz --extract-FORMAT-info AD
 ```
 After renaming, the output file is called Merged.vcf.gz_out.AD.FORMAT and it has exactly what I need - allele depth for all individuals that have genotypes for each transcript for each SNP.
 
-Then I went back to R to get the transcript IDs of significantly female biased and male biased transcripts:
 
-```
-borTad_laevisGenome_edgeR_tpm_SL_femalebiased <- borTad_laevisGenome_edgeR_tpm_combine_st46 %>% filter((FDR <= 0.05)& (logFC < -2)) %>% 
-  filter(chromosome == "chr8L") %>%
-  filter(start<=57000000) 
-borTad_laevisGenome_edgeR_tpm_SL_femalebiased$trans_id
-write.csv(borTad_laevisGenome_edgeR_tpm_SL_femalebiased$trans_id,
-          "borTad_laevisGenome_edgeR_tpm_SL_femalebiased$trans_id.csv", row.names = F)
-          
-# get the transcript_ids of female_biased trnascripts in the SL region
-borTad_laevisGenome_edgeR_tpm_SL_malebiased <- borTad_laevisGenome_edgeR_tpm_combine_st46 %>% filter((FDR <= 0.05)& (logFC > -2)) %>% 
-  filter(chromosome == "chr8L") %>%
-  filter(start<=57000000) 
-borTad_laevisGenome_edgeR_tpm_SL_malebiased$trans_id
-write.csv(borTad_laevisGenome_edgeR_tpm_SL_malebiased$trans_id,
-          "borTad_laevisGenome_edgeR_tpm_SL_malebiased$trans_id.csv", row.names = F)
-```          
-And used this list to grep the allele depth data of the individual transcripts from the files generated above with vcftools
-
-```
-grep -f SL_trans_IDs_sig_Sex_biased Merged.vcf.gz_out.AD.FORMAT > SL_allelic_depth_sig_sex_biased.AD.FORMAT
-```
 # Now get transcript IDs of male-biased and female-biased trnascripts in SL region
 ```R
 XT_data_whole_genome_tpm_SL_malebiased <- XT_data_whole_genome %>% 
