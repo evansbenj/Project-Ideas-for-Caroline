@@ -118,3 +118,9 @@ After using picard CreatDictionary and samtools faidx on the ref, I made a tab d
 java -jar /home/evanslab/trop_tadpole_RNAseq/data/jvarkit/dist/sam2tsv.jar -r /home/evanslab/trop_tadpole_RNAseq/data/XT_v10/XENTR_10.0_genome.fasta.gz /home/evanslab/trop_tadpole_RNAseq/data/mapping_tropDNTrans_tropGenomeV10_gmap/tropDNTtrans_tropGenomeV10_gmap.bam | perl -ane 'print if ($F[4] ne uc($F[7]))&&($F[4] ne ".")&&($F[4] ne "*")' > divergent_sites.txt
 ```
 This pipes the output to perl to parse and save only the divergent sites that are not gaps in the transcripts or asterisks, which may mean that they were hard clipped.
+
+The output filee is huge, so I am going to filter it to focus only on chr7, and include all matching sites, not only the mismatching ones. This is important because we need to know the propotion of the alignment that is diverged.
+```
+java -jar /home/evanslab/trop_tadpole_RNAseq/data/jvarkit/dist/sam2tsv.jar -A -r /home/evanslab/trop_tadpole_RNAseq/data/XT_v10/XENTR_10.0_genome.fasta.gz /home/evanslab/trop_tadpole_RNAseq/data/mapping_tropDNTrans_tropGenomeV10_gmap/tropDNTtrans_tropGenomeV10_gmap.bam | perl -ane 'print if ($F[3] eq "Chr7")&&($F[4] ne ".")&&($F[4] ne "*")&&($F[8] eq "M")' > divergent_sites_A.txt
+```
+
