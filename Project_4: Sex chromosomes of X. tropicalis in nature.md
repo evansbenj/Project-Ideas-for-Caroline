@@ -62,6 +62,88 @@ vcftools --gzvcf Merged.vcf.gz --extract-FORMAT-info AD
 ```
 After renaming, the output file is called Merged.vcf.gz_out.AD.FORMAT and it has exactly what I need - allele depth for all individuals that have genotypes for each transcript for each SNP.
 
+I identified a bug that caused the AD numbers to be weird from vcftools and bcftools. So I wrote my own script to get this:
+```perl
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+# This program reads in a vcf file and pulls out allele depth information.  This is possible with vcftools
+# and bcftools but those programs both make errors.
+
+# to execute type 
+# ./gets_AD_from_Vcf_filter.pl Merged.vcf.gz 10 AD.out
+# where number_of_samples refers to the number_of_samples in the vcf file
+
+my $inputfile = $ARGV[0];
+my $outputfile = $ARGV[2];
+
+
+if ($inputfile =~ /.gz$/) {
+open(DATAINPUT, "gunzip -c $inputfile |") || die "can’t open pipe to $inputfile";
+}
+else {
+open(DATAINPUT, $inputfile) || die "can’t open pipe to $inputfile";
+}
+
+unless (open(OUTFILE, ">$outputfile"))  {
+	print "I can\'t write to $outputfile\n";
+	exit;
+}
+print "Creating output file: $outputfile\n";
+
+
+my $number_of_samples = $ARGV[1];
+
+my @male_chrX_hets=();
+my @male_chrY_hets=();
+my @male_chrX_lowcoverage=();
+my @female_chrX_lowcoverage=();
+my @male_chrY_lowcoverage=();
+my @female_chrY=();
+my @autosomal_lowcoverage=();
+my @male_Yhet_sites;
+my @male_Xhet_sites;
+my @female_Y_sites;
+my $y;
+my @columns=();
+my @DP;
+my $AD;
+my @genotypes;
+
+while ( my $line = <DATAINPUT>) {
+	# print all commented lines to the outfile
+	if(substr($line,0,2) eq "#C"){
+		print OUTFILE $line;
+	}
+	elsif(substr($line,0,1) ne "#"){
+		@columns=split(/\s/,$line);
+		# first find out where the depth of coverage is			
+		@DP = split(":",$columns[8]);
+		$AD=-1;
+		for ($y=0; $y<= $#DP; $y += 1){
+			if($DP[$y] eq "AD"){
+				$AD=$y;
+			}
+		}
+		# now print the first 5 columns
+		for ($y=0; $y<= 4; $y ++){
+			print OUTFILE $columns[$y],"\t";
+		}
+		# now print out the Allele Depth of each sample
+		for ($y=9; $y<= ($number_of_samples + 8); $y ++){
+			# check each individual genotype in the ingroup
+			@genotypes=split(":",$columns[$y]);
+			# if a call was made, check if either genotupe is more than one base
+			print OUTFILE $genotypes[$AD],"\t";
+		} # end for loop over each genotype within a base position
+		print OUTFILE "\n";
+	} # end else	
+}# end while
+close DATAINPUT;
+close OUTFILE;
+````
+
 
 # Now get transcript IDs of male-biased and female-biased trnascripts in SL region
 ```R
