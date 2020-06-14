@@ -49,7 +49,7 @@ samtools sort XT6.bam -o XT6_sorted.bam
 samtools index XT6_sorted.bam
 ```
 ```
-samtools mpileup -d8000 -ugf tropicalis_transcriptome_trinityOut.Trinity.fasta -t DP,AD XT6_sorted.bam | bcftools call -V indels --format-fields GQ -m -O z | bcftools filter -e 'FORMAT/GT = "." || FORMAT/DP < 10 || FORMAT/GQ < 20 || FORMAT/GQ = "."' -O z -o XT6_sorted.bam.vcf.gz
+samtools mpileup -d8000 -ugf tropicalis_transcriptome_trinityOut.Trinity.fasta -t DP,AD XT6_sorted.bam | bcftools call -V indels --format-fields GQ -m -O z | bcftools filter -e 'INFO/MQ  < 10 ' -O z -o XT6_sorted.bam.vcf.gz
 ```
 ```
 tabix -p vcf XT6_sorted.bam.vcf.gz
