@@ -143,7 +143,7 @@ while ( my $line = <DATAINPUT>) {
 close DATAINPUT;
 close OUTFILE;
 ````
-
+Turns out it was actually an issue with the way Excel imported the text file! Anyhow, doesn't matter.
 
 # Now get transcript IDs of male-biased and female-biased trnascripts in SL region
 ```R
