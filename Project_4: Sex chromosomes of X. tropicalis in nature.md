@@ -165,8 +165,8 @@ write.csv(XT_data_whole_genome_tpm_SL_femalebiased$trans_id,
 ```
 And use this to grep the allele depth data of the individual transcripts from the file generated above with vcftools
 ```bash
-grep -f female_biased_SL_transIDs.txt Merged.vcf.gz.out.AD.FORMAT > SL_allelic_depth_sig_female_biased.AD.FORMAT
-grep -f male_biased_SL_transIDs.txt Merged.vcf.gz.out.AD.FORMAT > SL_allelic_depth_sig_male_biased.AD.FORMAT
+grep -f female_biased_SL_transIDs.txt Merged.vcf.gz.out.AD.FORMAT > SL_allelic_depth_sig_female_biased.AD.FORMAT.txt
+grep -f male_biased_SL_transIDs.txt Merged.vcf.gz.out.AD.FORMAT > SL_allelic_depth_sig_male_biased.AD.FORMAT.txt
 ```
 this above stuff was done here:
 ```
