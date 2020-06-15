@@ -72,7 +72,7 @@ use warnings;
 # and bcftools but those programs both make errors.
 
 # to execute type 
-# ./gets_AD_from_Vcf_filter.pl Merged.vcf.gz 10 AD.out
+# ./gets_AD_from_Vcf_filter.pl Merged.vcf.gz 14 Merged.vcf.gz.out.AD.FORMAT
 # where number_of_samples refers to the number_of_samples in the vcf file
 
 my $inputfile = $ARGV[0];
