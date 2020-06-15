@@ -62,7 +62,7 @@ vcftools --gzvcf Merged.vcf.gz --extract-FORMAT-info AD
 ```
 After renaming, the output file is called Merged.vcf.gz_out.AD.FORMAT and it has exactly what I need - allele depth for all individuals that have genotypes for each transcript for each SNP.
 
-I identified a bug that caused the AD numbers to be weird from vcftools and bcftools. So I wrote my own script to get this:
+I thought that I identified a bug that caused the AD numbers to be weird from vcftools and bcftools (but it was excel; see below). So I wrote my own script to get this:
 ```perl
 #!/usr/bin/env perl
 use strict;
