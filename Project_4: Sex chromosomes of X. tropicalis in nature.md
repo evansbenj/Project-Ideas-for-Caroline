@@ -187,6 +187,12 @@ Average =  60.0115
 Stdev =  53.3348
 ```
 
+Looked at diversity:
+```
+vcftools --gzvcf JBL052_chr7.bam.vcf.gz --window-pi 100000
+```
+It is much higher on Chr7 <16.5 Mb than the rest of the chr.  This is a ZW individual.
+
 Trying to figure out depth of XT reads in v10.  Only have shitty 454 seqs which I mapped here:
 ```
 /4/ben/XT_v10
