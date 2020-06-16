@@ -174,6 +174,19 @@ this above stuff was done here:
 ```
 
 # Genomic data
+
+Using bam file from Berkeley:
+```
+samtools depth -r Chr7:1-12000000 JBL052.bam | awk '{sum+=$3; sumsq+=$3*$3} END { print "Average = ",sum/NR; print "Stdev = ",sqrt(sumsq/NR - (sum/NR)*(sum/NR))}'
+Average =  54.3531
+Stdev =  65.6165
+```
+```
+samtools depth -r Chr7:12000001-133565930 JBL052.bam | awk '{sum+=$3; sumsq+=$3*$3} END { print "Average = ",sum/NR; print "Stdev = ",sqrt(sumsq/NR - (sum/NR)*(sum/NR))}'
+Average =  60.0115
+Stdev =  53.3348
+```
+
 Trying to figure out depth of XT reads in v10.  Only have shitty 454 seqs which I mapped here:
 ```
 /4/ben/XT_v10
