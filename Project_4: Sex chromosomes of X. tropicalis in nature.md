@@ -173,6 +173,14 @@ this above stuff was done here:
 /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome
 ```
 
+# RADseq data
+I'm working with some old RADseq vcf files mapped to v9 by BenF here: `/home/evanslab/tropicalis_families`
+
+```
+vcftools --gzvcf mpileup_raw_tropicalisFamilyEast_allChrs.vcf.gz --indv BJE4687_girl_GhE.fq.gz --chr Chr07 --window-pi 1000000
+```
+For Ghana East, males and females both have peaks <20Mb on chr7.  THis is consistent with a WWxYZ cross, with daughters being WZ and sons being WY.
+
 # Genomic data
 
 Using bam file from Berkeley:
