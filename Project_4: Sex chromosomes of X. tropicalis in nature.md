@@ -183,7 +183,7 @@ For Ghana East, males and females both have peaks <20Mb on chr7.  THis is consis
 
 # Genomic data
 
-Using bam file from Berkeley:
+Using bam file from Berkeley on graham: `/home/ben/scratch/XT-v10`
 ```
 samtools depth -r Chr7:1-12000000 JBL052.bam | awk '{sum+=$3; sumsq+=$3*$3} END { print "Average = ",sum/NR; print "Stdev = ",sqrt(sumsq/NR - (sum/NR)*(sum/NR))}'
 Average =  54.3531
