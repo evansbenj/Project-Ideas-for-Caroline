@@ -48,8 +48,22 @@ samtools sort XT6.bam -o XT6_sorted.bam
 ```
 samtools index XT6_sorted.bam
 ```
+Call genotypes, do light filter, output all calls, including homoz REF
 ```
-samtools mpileup -d8000 -ugf tropicalis_transcriptome_trinityOut.Trinity.fasta -t DP,AD XT6_sorted.bam | bcftools call -V indels --format-fields GQ -m -O z | bcftools filter -e 'INFO/MQ  < 10 ' -O z -o XT6_sorted.bam.vcf.gz
+samtools mpileup -d8000 -ugf /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome/tropicalis_transcriptome_trinityOut.Trinity.fasta -t DP,AD XT10_sorted.bam | bcftools call --gvcf 5 -V indels --format-fields GQ -m -O z | bcftools filter -e 'QUAL < 20 | DP < 4 | MQ < 20' -O z -o XT10_sorted.bam.vcf.gz
+samtools mpileup -d8000 -ugf /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome/tropicalis_transcriptome_trinityOut.Trinity.fasta -t DP,AD XT11_sorted.bam | bcftools call --gvcf 5 -V indels --format-fields GQ -m -O z | bcftools filter -e 'QUAL < 20 | DP < 4 | MQ < 20' -O z -o XT11_sorted.bam.vcf.gz
+samtools mpileup -d8000 -ugf /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome/tropicalis_transcriptome_trinityOut.Trinity.fasta -t DP,AD XT13_sorted.bam | bcftools call --gvcf 5 -V indels --format-fields GQ -m -O z | bcftools filter -e 'QUAL < 20 | DP < 4 | MQ < 20' -O z -o XT13_sorted.bam.vcf.gz
+samtools mpileup -d8000 -ugf /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome/tropicalis_transcriptome_trinityOut.Trinity.fasta -t DP,AD XT16_sorted.bam | bcftools call --gvcf 5 -V indels --format-fields GQ -m -O z | bcftools filter -e 'QUAL < 20 | DP < 4 | MQ < 20' -O z -o XT16_sorted.bam.vcf.gz
+samtools mpileup -d8000 -ugf /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome/tropicalis_transcriptome_trinityOut.Trinity.fasta -t DP,AD XT17_sorted.bam | bcftools call --gvcf 5 -V indels --format-fields GQ -m -O z | bcftools filter -e 'QUAL < 20 | DP < 4 | MQ < 20' -O z -o XT17_sorted.bam.vcf.gz
+samtools mpileup -d8000 -ugf /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome/tropicalis_transcriptome_trinityOut.Trinity.fasta -t DP,AD XT19_sorted.bam | bcftools call --gvcf 5 -V indels --format-fields GQ -m -O z | bcftools filter -e 'QUAL < 20 | DP < 4 | MQ < 20' -O z -o XT19_sorted.bam.vcf.gz
+samtools mpileup -d8000 -ugf /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome/tropicalis_transcriptome_trinityOut.Trinity.fasta -t DP,AD XT1_sorted.bam | bcftools call --gvcf 5 -V indels --format-fields GQ -m -O z | bcftools filter -e 'QUAL < 20 | DP < 4 | MQ < 20' -O z -o XT1_sorted.bam.vcf.gz
+samtools mpileup -d8000 -ugf /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome/tropicalis_transcriptome_trinityOut.Trinity.fasta -t DP,AD XT20_sorted.bam | bcftools call --gvcf 5 -V indels --format-fields GQ -m -O z | bcftools filter -e 'QUAL < 20 | DP < 4 | MQ < 20' -O z -o XT20_sorted.bam.vcf.gz
+samtools mpileup -d8000 -ugf /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome/tropicalis_transcriptome_trinityOut.Trinity.fasta -t DP,AD XT2_sorted.bam | bcftools call --gvcf 5 -V indels --format-fields GQ -m -O z | bcftools filter -e 'QUAL < 20 | DP < 4 | MQ < 20' -O z -o XT2_sorted.bam.vcf.gz
+samtools mpileup -d8000 -ugf /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome/tropicalis_transcriptome_trinityOut.Trinity.fasta -t DP,AD XT3_sorted.bam | bcftools call --gvcf 5 -V indels --format-fields GQ -m -O z | bcftools filter -e 'QUAL < 20 | DP < 4 | MQ < 20' -O z -o XT3_sorted.bam.vcf.gz
+samtools mpileup -d8000 -ugf /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome/tropicalis_transcriptome_trinityOut.Trinity.fasta -t DP,AD XT6_sorted.bam | bcftools call --gvcf 5 -V indels --format-fields GQ -m -O z | bcftools filter -e 'QUAL < 20 | DP < 4 | MQ < 20' -O z -o XT6_sorted.bam.vcf.gz
+samtools mpileup -d8000 -ugf /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome/tropicalis_transcriptome_trinityOut.Trinity.fasta -t DP,AD XT7_sorted.bam | bcftools call --gvcf 5 -V indels --format-fields GQ -m -O z | bcftools filter -e 'QUAL < 20 | DP < 4 | MQ < 20' -O z -o XT7_sorted.bam.vcf.gz
+samtools mpileup -d8000 -ugf /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome/tropicalis_transcriptome_trinityOut.Trinity.fasta -t DP,AD XT8_sorted.bam | bcftools call --gvcf 5 -V indels --format-fields GQ -m -O z | bcftools filter -e 'QUAL < 20 | DP < 4 | MQ < 20' -O z -o XT8_sorted.bam.vcf.gz
+samtools mpileup -d8000 -ugf /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome/tropicalis_transcriptome_trinityOut.Trinity.fasta -t DP,AD XT9_sorted.bam | bcftools call --gvcf 5 -V indels --format-fields GQ -m -O z | bcftools filter -e 'QUAL < 20 | DP < 4 | MQ < 20' -O z -o XT9_sorted.bam.vcf.gz
 ```
 ```
 tabix -p vcf XT6_sorted.bam.vcf.gz
