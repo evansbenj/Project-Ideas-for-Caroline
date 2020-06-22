@@ -71,6 +71,32 @@ tabix -p vcf XT6_sorted.bam.vcf.gz
 ```
 bcftools merge XT2_sorted.bam.vcf.gz XT3_sorted.bam.vcf.gz XT6_sorted.bam.vcf.gz XT9_sorted.bam.vcf.gz XT10_sorted.bam.vcf.gz XT11_sorted.bam.vcf.gz XT16_sorted.bam.vcf.gz XT17_sorted.bam.vcf.gz XT20_sorted.bam.vcf.gz XT1_sorted.bam.vcf.gz XT7_sorted.bam.vcf.gz -Oz XT8_sorted.bam.vcf.gz XT13_sorted.bam.vcf.gz XT19_sorted.bam.vcf.gz -o Merged.vcf.gz
 ```
+
+I made this into a tab file and I'm running my polymorphism script on it. There are three possible sex chromosome genotypes for our tad family:
+* WZ mother x WY father
+* WW mother x WY father
+* WW mother * ZY father.
+
+For the first option, daughters are WW or WZ and sons are WY or ZY.  On average, if the XT Y is from a Z and the W is degenerate, I expect more polymorphism in sex-linked transcripts from males than females in this scenario, especially in the male-biased transcripts. Polymorphism in male-biased sex-linked transcripts should be lower than polymorphism in male-biased non-sex-linked transcripts.
+
+For the second option, if the XT Y is from a Z and the W is degenerate, I expect more polymorphism in sex-linked transcripts from males than females in this scenario. Polymorphism in male-biased sex-linked transcripts should be lower than but fairly similar to polymorphism in male-biased non-sex-linked transcripts.
+
+For the third option, if the XT Y is from a Z and the W is degenerate, I'd expect a similar level of polymorphism in the males and females. I would also not expect such a male-biased expression skew, so this cross a priori is unlikely.
+
+Probably can't distinguish between the first and second options.
+
+However, if the Y were derived from a degenrate W, the predictions would be different.
+
+The first option: similar polymorphism expected in female sex-linked transcripts (WW or WZ) as male sex-linked transcripts (WY or ZY)
+The second option: similar polymorphism expected in female sex-linked transcripts (WW) as male sex-linked transcripts (WY)
+The third option: more polymorphism expected in female sex-linked transcripts (WZ) than male sex-linked transcripts (WY)
+
+```
+./Boot_from_tab_diverge_poly_2018_allowmissingdata_transcripts_.pl XT_st50_RNAseq_Merged.vcf.gz.tab 11111111111111 3_4_1_2_3_4_5_6_7_8_9_10_11_12_13_14 XT_tads_RNAseq_Merged_females_and_males_.poly_by_windows
+./Boot_from_tab_diverge_poly_2018_allowmissingdata_transcripts_.pl XT_st50_RNAseq_Merged.vcf.gz.tab 11111111111111 3_4_1_2_4_5_8_9_10_11_14 XT_tads_RNAseq_Merged_females_.poly_by_windows
+./Boot_from_tab_diverge_poly_2018_allowmissingdata_transcripts_.pl XT_st50_RNAseq_Merged.vcf.gz.tab 11111111111111 3_4_3_6_7_12_13 XT_tads_RNAseq_Merged_males_.poly_by_windows
+```
+
 ```
 vcftools --gzvcf Merged.vcf.gz --extract-FORMAT-info AD
 ```
