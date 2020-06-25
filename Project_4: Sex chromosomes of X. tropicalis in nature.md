@@ -28,6 +28,16 @@ Transcriptome assembly is here:
 ```
 /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome/tropicalis_transcriptome_trinityOut.Trinity.fasta
 ```
+Here are some of the files that Xue generated with a subset of individuals:
+Group1 and group2 corresponding to analysis 1 and 2 respectively in the previous email.
+
+Group 1 has these females: XT3, XT9, XT11, and XT20 and these males: XT7 and XT8
+
+Group 2 has these females: XT2, XT6, XT10, XT16, and XT17 and these males: XT1, XT13, XT19
+```
+/home/evanslab/trop_tadpole_RNAseq/data/combine_count_de_detail/expression_tpm/trop_tad_v10_tpm_uncollapsed_group1_combine.csv
+/home/evanslab/trop_tadpole_RNAseq/data/combine_count_de_detail/expression_tpm/trop_tad_v10_tpm_uncollapsed_group2_combine.csv
+```
 I'm mapping the RNAseq data to the transcriptomes here:
 ```
 /home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome
