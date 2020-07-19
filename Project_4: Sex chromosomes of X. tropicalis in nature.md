@@ -303,3 +303,11 @@ samtools view -b tropDNTtrans_tropGenomeV10_gmap_sorted.bam Chr7 > tropDNTtrans_
 ```
 java -jar /home/evanslab/trop_tadpole_RNAseq/data/jvarkit/dist/sam2tsv.jar -A -r /home/evanslab/trop_tadpole_RNAseq/data/XT_v10/XENTR_10.0_genome.fasta.gz /home/evanslab/trop_tadpole_RNAseq/data/mapping_tropDNTrans_tropGenomeV10_gmap/tropDNTtrans_tropGenomeV10_gmap_sorted_Chr7only.bam | perl -ane 'print if ($F[4] ne ".")&&($F[4] ne "*")&&($F[8] eq "M")' > divergent_sites_A.txt
 ```
+
+# Extract sequences from transcriptome assembly
+
+Candidates for kos (/home/evanslab/trop_tadpole_RNAseq/data/build_transcriptome):
+
+```
+perl -ne 'if(/^>(\S+)/){$c=grep{/^$1$/}qw(TRINITY_DN1430_c1_g2_i3 TRINITY_DN20482_c0_g1_i4 TRINITY_DN5596_c0_g1_i3 TRINITY_DN21880_c0_g1_i1 TRINITY_DN12616_c0_g1_i1 TRINITY_DN23111_c0_g1_i1 TRINITY_DN2118_c0_g1_i8 TRINITY_DN21513_c0_g1_i6)}print if $c' tropicalis_transcriptome_trinityOut.Trinity.fasta  >> KO_candidates.fa
+```
